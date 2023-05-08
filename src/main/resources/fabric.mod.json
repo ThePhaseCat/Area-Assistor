@@ -3,10 +3,10 @@
   "id": "modid",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "MineCalc",
+  "description": "Attempt to port my Java Application, MineCalc, to Minecraft as a mod. This will probably fail.",
   "authors": [
-    "Me!"
+    "ThePhaseCat"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "net.fabricmc.minecalc.MineCalc"
     ]
   },
   "mixins": [
