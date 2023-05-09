@@ -1,6 +1,6 @@
-package net.fabricmc.minecalc.mixin;
+package com.minecalc.mixin;
 
-import net.fabricmc.minecalc.MineCalc;
+import com.minecalc.MineCalc;
 import net.minecraft.client.gui.screen.TitleScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
