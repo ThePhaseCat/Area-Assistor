@@ -1,4 +1,4 @@
-package net.fabricmc.minecalc;
+package com.minecalc;
 
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
