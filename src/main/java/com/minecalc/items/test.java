@@ -36,40 +36,63 @@ public class test extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
         playerEntity.playSound(SoundEvents.BLOCK_WOOL_BREAK, 1.0F, 1.0F);
         counter = 0;
+        MinecraftClient.getInstance().player.sendChatMessage("Counter Reset", Text.of("Test"));
         return TypedActionResult.success(playerEntity.getStackInHand(hand));
     }
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context)
     {
-        //get the block position
-        BlockPos pos = context.getBlockPos();
-        LOGGER.info(String.valueOf(pos));
-        //send a message in chat
-        MinecraftClient.getInstance().player.sendChatMessage("Pos: " + pos, Text.of("Test"));
-        if(counter == 0)
-        {
-            block1 = pos;
+        //get the area of the 3 blocks
+        if (counter == 0) {
+            block1 = context.getBlockPos();
             counter++;
+            MinecraftClient.getInstance().player.sendChatMessage("Block 1 set", Text.of("Test"));
         }
-        else if(counter == 1)
-        {
-            block2 = pos;
-            counter++;
+        else if (counter == 1) {
+            if (!context.getBlockPos().equals(block1)) {
+                block2 = context.getBlockPos();
+                counter++;
+                MinecraftClient.getInstance().player.sendChatMessage("Block 2 set", Text.of("Test"));
+            }
+            else {
+                MinecraftClient.getInstance().player.sendChatMessage("Block 1 and Block 2 cannot be the same", Text.of("Test"));
+            }
         }
-        else if(counter == 2)
-        {
-            block3 = pos;
-            counter = 0;
-
-            //calculate the area with the 3 blocks
-            int area = (block3.getX() - block1.getX()) * (block3.getZ() - block1.getZ() * (block3.getY() - block1.getY()));
-            LOGGER.info(String.valueOf(area));
-            //send a message in chat
-            MinecraftClient.getInstance().player.sendChatMessage("Area: " + area, Text.of("Test"));
+        else if (counter == 2) {
+            if (!context.getBlockPos().equals(block1) && !context.getBlockPos().equals(block2)) {
+                block3 = context.getBlockPos();
+                counter++;
+                MinecraftClient.getInstance().player.sendChatMessage("Block 3 set", Text.of("Test"));
+            }
+            else {
+                MinecraftClient.getInstance().player.sendChatMessage("Block 3 cannot be the same as Block 1 or Block 2", Text.of("Test"));
+            }
+        }
+        else {
+            MinecraftClient.getInstance().player.sendChatMessage(String.valueOf(calcArea()), Text.of("Test"));
         }
 
         return ActionResult.SUCCESS;
+    }
+
+    public int calcArea() {
+
+        int length = block2.getX() - block1.getX();
+        int width = block2.getZ() - block1.getZ();
+        int height = block3.getY() - block2.getY();
+
+        MinecraftClient.getInstance().player.sendChatMessage("Length: " + length, Text.of("Test"));
+        MinecraftClient.getInstance().player.sendChatMessage("Width: " + width, Text.of("Test"));
+        MinecraftClient.getInstance().player.sendChatMessage("Height: " + height, Text.of("Test"));
+
+
+        int area = length * width * height;
+        if (area < 0)
+        {
+            area = area * -1;
+        }
+        return area;
     }
 
 }
