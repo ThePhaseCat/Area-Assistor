@@ -1,7 +1,10 @@
 package com.minecalc.event;
 
+import com.minecalc.gui.testGui;
+import com.minecalc.gui.testScreen;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
@@ -9,7 +12,7 @@ import org.lwjgl.glfw.GLFW;
 
 public class KeyInputHandler {
 
-    public static final String CATEGORY = "key.categories.minecalc";
+    public static final String CATEGORY = "key.category.minecalc.test";
     public static final String KEYBIND = "key.minecalc.test";
 
     public static KeyBinding testGuiKey;
@@ -19,7 +22,7 @@ public class KeyInputHandler {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (testGuiKey.wasPressed())
             {
-                client.player.sendChatMessage("pressed", Text.of("test"));
+                MinecraftClient.getInstance().setScreen(new testScreen(new testGui()));
             }
         });
     }
