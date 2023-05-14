@@ -1,5 +1,8 @@
 package com.minecalc.items;
 
+import com.minecalc.gui.testGui;
+import com.minecalc.gui.testScreen;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -15,8 +18,8 @@ public class test2 extends Item {
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-
-        return super.use(world, user, hand);
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
+        return super.use(world, playerEntity, hand);
     }
+
 }

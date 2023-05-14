@@ -1,5 +1,6 @@
 package com.minecalc.items;
 
+import com.minecalc.gui.testScreen;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
@@ -141,6 +142,9 @@ public class test extends Item {
 
     //get all the blocks in the area selected
     public void getBlocks() {
+        String test = MinecraftClient.getInstance().world.getBlockState(new BlockPos(block1.getX(), block1.getY(), block1.getZ())).getBlock().getName().getString();
+        LOGGER.info(test);
+
         ArrayList<String> blockNames = new ArrayList<String>();
         int startx = block1.getX();
         int starty = block1.getY();
@@ -163,7 +167,6 @@ public class test extends Item {
         for (int i = 0; i < blockNames.size(); i++) {
             LOGGER.info(blockNames.get(i));
         }
-
         //maybe put a ui here to show all the blocks?
     }
 }
