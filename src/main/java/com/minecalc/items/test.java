@@ -1,5 +1,6 @@
 package com.minecalc.items;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -15,6 +16,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 
 public class test extends Item {
 
@@ -43,34 +46,30 @@ public class test extends Item {
     @Override
     public ActionResult useOnBlock(ItemUsageContext context)
     {
+        //get the name of the block
+        String blockName = context.getWorld().getBlockState(context.getBlockPos()).getBlock().getName().getString();
+        MinecraftClient.getInstance().player.sendChatMessage(blockName, Text.of("Test"));
+
         //get the area of the 3 blocks
         if (counter == 0) {
             block1 = context.getBlockPos();
             counter++;
-            MinecraftClient.getInstance().player.sendChatMessage("Block 1 set", Text.of("Test"));
         }
         else if (counter == 1) {
             if (!context.getBlockPos().equals(block1)) {
                 block2 = context.getBlockPos();
                 counter++;
-                MinecraftClient.getInstance().player.sendChatMessage("Block 2 set", Text.of("Test"));
-            }
-            else {
-                MinecraftClient.getInstance().player.sendChatMessage("Block 1 and Block 2 cannot be the same", Text.of("Test"));
             }
         }
         else if (counter == 2) {
             if (!context.getBlockPos().equals(block1) && !context.getBlockPos().equals(block2)) {
                 block3 = context.getBlockPos();
                 counter++;
-                MinecraftClient.getInstance().player.sendChatMessage("Block 3 set", Text.of("Test"));
-            }
-            else {
-                MinecraftClient.getInstance().player.sendChatMessage("Block 3 cannot be the same as Block 1 or Block 2", Text.of("Test"));
             }
         }
         else {
             MinecraftClient.getInstance().player.sendChatMessage(String.valueOf(calcArea()), Text.of("Test"));
+            getBlocks();
         }
 
         return ActionResult.SUCCESS;
@@ -78,9 +77,54 @@ public class test extends Item {
 
     public int calcArea() {
 
-        int length = block2.getX() - block1.getX();
-        int width = block2.getZ() - block1.getZ();
-        int height = block3.getY() - block2.getY();
+        //length
+        int block2x = block2.getX();
+        int block1x = block1.getX();
+
+        //width
+        int block2z = block2.getZ();
+        int block1z = block1.getZ();
+
+        //height
+        int block3y = block3.getY();
+        int block2y = block2.getY();
+
+        if (block2x < 0){
+            block2x = block2x * -1;
+        }
+        if (block1x < 0){
+            block1x = block1x * -1;
+        }
+        if (block2z < 0){
+            block2z = block2z * -1;
+        }
+        if (block1z < 0){
+            block1z = block1z * -1;
+        }
+        if (block3y < 0){
+            block3y = block3y * -1;
+        }
+        if (block2y < 0){
+            block2y = block2y * -1;
+        }
+
+        int length = block2x - block1x;
+        int width = block2z - block1z;
+        int height = block3y - block2y;
+
+        if(length < 0){
+            length = length * -1;
+        }
+        if(width < 0){
+            width = width * -1;
+        }
+        if(height < 0){
+            height = height * -1;
+        }
+
+        length = length + 1;
+        width = width + 1;
+        height = height + 1;
 
         MinecraftClient.getInstance().player.sendChatMessage("Length: " + length, Text.of("Test"));
         MinecraftClient.getInstance().player.sendChatMessage("Width: " + width, Text.of("Test"));
@@ -95,4 +139,31 @@ public class test extends Item {
         return area;
     }
 
+    //get all the blocks in the area selected
+    public void getBlocks() {
+        ArrayList<String> blockNames = new ArrayList<String>();
+        int startx = block1.getX();
+        int starty = block1.getY();
+        int startz = block1.getZ();
+
+        int endx = block2.getX();
+        int endy = block2.getY();
+        int endz = block2.getZ();
+
+        for (int x = startx; x <= endx; x++) {
+            for (int y = starty; y <= endy; y++) {
+                for (int z = startz; z <= endz; z++) {
+                    String blockName = MinecraftClient.getInstance().world.getBlockState(new BlockPos(x, y, z)).getBlock().getName().getString();
+                    blockNames.add(blockName);
+                }
+            }
+        }
+
+        //print everything to logger
+        for (int i = 0; i < blockNames.size(); i++) {
+            LOGGER.info(blockNames.get(i));
+        }
+
+        //maybe put a ui here to show all the blocks?
+    }
 }
