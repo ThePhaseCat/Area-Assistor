@@ -24,20 +24,15 @@ public class testGui extends LightweightGuiDescription {
     public static ArrayList<String> blockNames = new ArrayList<String>();
 
     public testGui() {
-        //make root panel
-        WGridPanel root = new WGridPanel();
-        setRootPanel(root);
-        root.setSize(300, 200);
-
         //setValuesPanel
         WGridPanel setValuesPanel = new WGridPanel();
-        //setRootPanel(setValuesPanel);
+        setRootPanel(setValuesPanel);
         setValuesPanel.setSize(300, 200);
 
         //setValuesPanel Labels
-        WLabel block1lab = new WLabel(Text.translatable("Block 1: " + block1));
-        WLabel block2lab = new WLabel(Text.translatable("Block 2: " + block2));
-        WLabel block3lab = new WLabel(Text.translatable("Block 3: " + block3));
+        WLabel block1lab = new WLabel(Text.translatable("Block 1: " + BlockCoords(block1)));
+        WLabel block2lab = new WLabel(Text.translatable("Block 2: " + BlockCoords(block2)));
+        WLabel block3lab = new WLabel(Text.translatable("Block 3: " + BlockCoords(block3)));
 
         //setValuesPanel buttons
         WButton block1coords = new WButton(Text.translatable("Change Block 1 Coords"));
@@ -48,21 +43,23 @@ public class testGui extends LightweightGuiDescription {
         block1coords.setOnClick(() -> {
             System.out.println("block 1 button pressed");
             block1 = getBlockPos();
-            System.out.println(block1);
+            block1lab.setText(Text.translatable("Block 1: " + BlockCoords(block1)));
             areaValue = getAreaValue();
-            //MinecraftClient.getInstance().setScreen(new testScreen(new testGui()));
+            MinecraftClient.getInstance().setScreen(new testScreen(new testGui()));
         });
         block2coords.setOnClick(() -> {
             System.out.println("block 2 button pressed");
             block2 = getBlockPos();
-            System.out.println(block2);
+            block2lab.setText(Text.translatable("Block 2: " + BlockCoords(block2)));
             areaValue = getAreaValue();
+            MinecraftClient.getInstance().setScreen(new testScreen(new testGui()));
         });
         block3coords.setOnClick(() -> {
             System.out.println("block 3 button pressed");
             block3 = getBlockPos();
-            System.out.println(block3);
+            block3lab.setText(Text.translatable("Block 3: " + BlockCoords(block3)));
             areaValue = getAreaValue();
+            MinecraftClient.getInstance().setScreen(new testScreen(new testGui()));
         });
 
 
@@ -83,17 +80,13 @@ public class testGui extends LightweightGuiDescription {
         WLabel areaLabel = new WLabel(Text.translatable("Area: " + areaValue));
         areaPanel.add(areaLabel, 1, 1, 1, 1);
 
-        //block panel
-        WListPanel<String, BlockStuff> list = new WListPanel<>(blockNames, BlockStuff::new, configurator);
-        list.setListItemHeight(2*18);
-        root.add(list, 0, 2, 7, 6);
-
         //tabs
         WTabPanel tabs = new WTabPanel();
-        tabs.add(root, tab -> tab.title(Text.literal("root gui")));
         tabs.add(setValuesPanel, tab -> tab.title(Text.literal("Set Values")));
         tabs.add(areaPanel, tab -> tab.title(Text.literal("Area Value")));
 
+        setRootPanel(tabs);
+        tabs.setSelectedIndex(0);
     }
 
     public BlockPos getBlockPos()
@@ -200,19 +193,17 @@ public class testGui extends LightweightGuiDescription {
         }
     }
 
-
-    public static class BlockStuff extends WPlainPanel {
-        WLabel label;
-
-        public BlockStuff() {
-            label = new WLabel(Text.literal("Foo"));
-            this.add(label, 18+ 4, 2, 5*18, 18);
-
-            this.setSize(7*18, 2*18);
+    public String BlockCoords(BlockPos blockGiven)
+    {
+        if (blockGiven == null)
+        {
+            return "null";
         }
-    }
+        int blockX = blockGiven.getX();
+        int blockY = blockGiven.getY();
+        int blockZ = blockGiven.getZ();
 
-    BiConsumer<String, BlockStuff> configurator = (String s, BlockStuff test) -> {
-        test.label.setText(Text.literal(s));
-    };
+        String blockCoords = blockX + ", " + blockY + ", " + blockZ;
+        return blockCoords;
+    }
 }
