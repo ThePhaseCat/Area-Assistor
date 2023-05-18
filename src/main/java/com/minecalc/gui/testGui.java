@@ -3,6 +3,7 @@ package com.minecalc.gui;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -22,6 +23,8 @@ public class testGui extends LightweightGuiDescription {
     public static int areaValue;
 
     public static ArrayList<String> blockNames = new ArrayList<String>();
+
+    public static String stringBlockNames = sendBlockNames();
 
     public testGui() {
         //setValuesPanel
@@ -80,13 +83,25 @@ public class testGui extends LightweightGuiDescription {
         WLabel areaLabel = new WLabel(Text.translatable("Area: " + areaValue));
         areaPanel.add(areaLabel, 1, 1, 1, 1);
 
+        //block names panel
+        WGridPanel blockNamesPanel = new WGridPanel();
+        blockNamesPanel.setSize(300, 200);
+
+        //block names panel labels
+        WLabel blockNamesLabel = new WLabel(Text.translatable("Blocks in Area: " + stringBlockNames));
+        blockNamesPanel.add(blockNamesLabel, 1, 1, 1, 1);
+
+
         //tabs
         WTabPanel tabs = new WTabPanel();
         tabs.add(setValuesPanel, tab -> tab.title(Text.literal("Set Values")));
         tabs.add(areaPanel, tab -> tab.title(Text.literal("Area Value")));
+        tabs.add(blockNamesPanel, tab -> tab.title(Text.literal("Blocks in Area")));
 
         setRootPanel(tabs);
         tabs.setSelectedIndex(0);
+
+
     }
 
     public BlockPos getBlockPos()
@@ -170,27 +185,70 @@ public class testGui extends LightweightGuiDescription {
         {
             area = area * -1;
         }
+        clearBlockNames();
+        addBlockNames();
+        System.out.println(sendBlockNames());
+        stringBlockNames = sendBlockNames();
+        System.out.println(stringBlockNames);
         return area;
     }
 
     public void addBlockNames()
     {
-        int startx = block1.getX();
-        int starty = block1.getY();
-        int startz = block1.getZ();
+        System.out.println("addBlockNames called");
+        if (block1 == null || block2 == null || block3 == null)
+        {
+            return;
+        }
+        int block1x = block1.getX();
+        int block1y = block1.getY();
+        int block1z = block1.getZ();
 
-        int endx = block2.getX();
-        int endy = block2.getY();
-        int endz = block2.getZ();
+        int block2x = block2.getX();
+        int block2y = block2.getY();
+        int block2z = block2.getZ();
 
-        for (int x = startx; x <= endx; x++) {
-            for (int y = starty; y <= endy; y++) {
-                for (int z = startz; z <= endz; z++) {
-                    String blockName = MinecraftClient.getInstance().world.getBlockState(new BlockPos(x, y, z)).getBlock().getName().getString();
-                    blockNames.add(blockName);
+        int block3x = block3.getX();
+        int block3y = block3.getY();
+        int block3z = block3.getZ();
+
+        for(int y = block1y; y<=block3y; y++)
+        {
+            for(int x = block1x; x<=block2x; x++)
+            {
+                for(int z = block1z; z<=block2z; z++)
+                {
+                    System.out.println(x + " " + y + " " + z);
                 }
             }
         }
+        for(int i = 0; i < blockNames.size(); i++)
+        {
+            System.out.println(blockNames.get(i));
+        }
+        System.out.println("addBlockNames finished");
+    }
+
+    public void clearBlockNames()
+    {
+        blockNames.clear();
+        System.out.println("blockNames cleared");
+    }
+
+    public static String sendBlockNames()
+    {
+        System.out.println("sendBlockNames called");
+        if(blockNames.size() == 0)
+        {
+            return "null";
+        }
+        String blockNamesString = "";
+        for (int i = 0; i < blockNames.size(); i++)
+        {
+            blockNamesString = blockNamesString + blockNames.get(i) + ", ";
+        }
+        //print everything in the arraylist
+        return blockNamesString;
     }
 
     public String BlockCoords(BlockPos blockGiven)
