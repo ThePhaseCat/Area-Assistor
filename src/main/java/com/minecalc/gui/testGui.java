@@ -2,29 +2,26 @@ package com.minecalc.gui;
 
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
-
-import java.util.ArrayList;
-import java.util.function.BiConsumer;
 
 public class testGui extends LightweightGuiDescription {
 
     public static BlockPos block1;
     public static BlockPos block2;
     public static BlockPos block3;
-
     public static int areaValue;
 
-    public static ArrayList<String> blockNames = new ArrayList<String>();
-
-    public static String stringBlockNames = sendBlockNames();
+    public static Item toolInfo = getHeldItem();
 
     public testGui() {
         //setValuesPanel
@@ -83,20 +80,56 @@ public class testGui extends LightweightGuiDescription {
         WLabel areaLabel = new WLabel(Text.translatable("Area: " + areaValue));
         areaPanel.add(areaLabel, 1, 1, 1, 1);
 
-        //block names panel
-        WGridPanel blockNamesPanel = new WGridPanel();
-        blockNamesPanel.setSize(300, 200);
+        //area calculation panel
+        WGridPanel areaCalcPanel = new WGridPanel();
+        areaCalcPanel.setSize(300, 200);
 
-        //block names panel labels
-        WLabel blockNamesLabel = new WLabel(Text.translatable("Blocks in Area: " + stringBlockNames));
-        blockNamesPanel.add(blockNamesLabel, 1, 1, 1, 1);
+        //area calculation panel labels
+        String toolName;
+        String toolStuff;
+        if(toolInfo == null)
+        {
+            toolName = "No Tool in Hand!";
+            toolStuff = "Please have a tool in your hand before using this service!";
+        }
+        else
+        {
+            toolName = toolInfo.getName().getString();
+            toolStuff = "Durability: " + durabilityCalculation(toolInfo);
+        }
 
+        WLabel toolLabel = new WLabel(Text.translatable("Tool: " + toolName));
+        WLabel toolInfoLabel = new WLabel(Text.translatable(toolStuff));
+
+        String areaInformation;
+        if(howManyAmount() == 0.0)
+        {
+            areaInformation = "No area defined or no tool in hand!";
+        }
+        else
+        {
+            //check if the tool is a shovel or pickaxe
+            if(toolInfo == Items.WOODEN_SHOVEL || toolInfo == Items.STONE_SHOVEL || toolInfo == Items.IRON_SHOVEL || toolInfo == Items.GOLDEN_SHOVEL || toolInfo == Items.DIAMOND_SHOVEL || toolInfo == Items.NETHERITE_SHOVEL)
+            {
+                areaInformation = "It will take " + howManyAmount() + toolName + "'s to clear the area of " + areaValue + " blocks!";
+            }
+            else
+            {
+                areaInformation = "It will take " + howManyAmount() + toolName + "'s to clear the area of " + areaValue + " blocks!";
+            }
+        }
+        WLabel areaCaluclationInfo = new WLabel(Text.translatable(areaInformation));
+
+        //area calculation panel add
+        areaCalcPanel.add(toolLabel, 1, 1, 1, 1);
+        areaCalcPanel.add(toolInfoLabel, 1, 3, 1, 1);
+        areaCalcPanel.add(areaCaluclationInfo, 1, 5, 1, 1);
 
         //tabs
         WTabPanel tabs = new WTabPanel();
         tabs.add(setValuesPanel, tab -> tab.title(Text.literal("Set Values")));
         tabs.add(areaPanel, tab -> tab.title(Text.literal("Area Value")));
-        tabs.add(blockNamesPanel, tab -> tab.title(Text.literal("Blocks in Area")));
+        tabs.add(areaCalcPanel, tab -> tab.title(Text.literal("Area Calculation")));
 
         setRootPanel(tabs);
         tabs.setSelectedIndex(0);
@@ -185,71 +218,9 @@ public class testGui extends LightweightGuiDescription {
         {
             area = area * -1;
         }
-        clearBlockNames();
-        addBlockNames();
-        System.out.println(sendBlockNames());
-        stringBlockNames = sendBlockNames();
-        System.out.println(stringBlockNames);
         return area;
     }
 
-    public void addBlockNames()
-    {
-        System.out.println("addBlockNames called");
-        if (block1 == null || block2 == null || block3 == null)
-        {
-            return;
-        }
-        int block1x = block1.getX();
-        int block1y = block1.getY();
-        int block1z = block1.getZ();
-
-        int block2x = block2.getX();
-        int block2y = block2.getY();
-        int block2z = block2.getZ();
-
-        int block3x = block3.getX();
-        int block3y = block3.getY();
-        int block3z = block3.getZ();
-
-        for(int y = block1y; y<=block3y; y++)
-        {
-            for(int x = block1x; x<=block2x; x++)
-            {
-                for(int z = block1z; z<=block2z; z++)
-                {
-                    System.out.println(x + " " + y + " " + z);
-                }
-            }
-        }
-        for(int i = 0; i < blockNames.size(); i++)
-        {
-            System.out.println(blockNames.get(i));
-        }
-        System.out.println("addBlockNames finished");
-    }
-
-    public void clearBlockNames()
-    {
-        blockNames.clear();
-        System.out.println("blockNames cleared");
-    }
-
-    public static String sendBlockNames()
-    {
-        System.out.println("sendBlockNames called");
-        if(blockNames.size() == 0)
-        {
-            return "null";
-        }
-        String blockNamesString = "";
-        for (int i = 0; i < blockNames.size(); i++)
-        {
-            blockNamesString = blockNamesString + blockNames.get(i) + ", ";
-        }
-        //print everything in the arraylist
-        return blockNamesString;
-    }
 
     public String BlockCoords(BlockPos blockGiven)
     {
@@ -263,5 +234,63 @@ public class testGui extends LightweightGuiDescription {
 
         String blockCoords = blockX + ", " + blockY + ", " + blockZ;
         return blockCoords;
+    }
+
+    //method to get the tool that a player is holding
+    public static Item getHeldItem()
+    {
+        MinecraftClient client = MinecraftClient.getInstance();
+        PlayerEntity player = client.player;
+        Item heldItem = player.getMainHandStack().getItem();
+        //check if item is a pickaxe or shovel
+        if (heldItem == Items.WOODEN_PICKAXE || heldItem == Items.STONE_PICKAXE || heldItem == Items.IRON_PICKAXE || heldItem == Items.GOLDEN_PICKAXE || heldItem == Items.DIAMOND_PICKAXE || heldItem == Items.NETHERITE_PICKAXE || heldItem == Items.WOODEN_SHOVEL || heldItem == Items.STONE_SHOVEL || heldItem == Items.IRON_SHOVEL || heldItem == Items.GOLDEN_SHOVEL || heldItem == Items.DIAMOND_SHOVEL || heldItem == Items.NETHERITE_SHOVEL) {
+            return heldItem;
+        } else {
+            return null;
+        }
+    }
+
+    public int durabilityCalculation(Item tool)
+    {
+        //change tool to item stack
+        ItemStack toolStack = new ItemStack(tool);
+        int durability = tool.getMaxDamage();
+        //get enchant of unbreaking
+        int unbreaking = EnchantmentHelper.getLevel(Enchantments.UNBREAKING, toolStack);
+
+        //calculate durability
+        if (unbreaking == 1)
+        {
+            durability = durability * 2;
+        }
+        else if (unbreaking == 2)
+        {
+            durability = durability * 3;
+        }
+        else if (unbreaking == 3)
+        {
+            durability = durability * 4;
+        }
+        else
+        {
+            durability = durability;
+        }
+        return durability;
+    }
+
+    public double howManyAmount()
+    {
+        //calculate how many pickaxes or shovels are required to clear out an area
+        int area = getAreaValue();
+        if(area == 0)
+        {
+            return 0.0;
+        }
+        else
+        {
+            double durability = durabilityCalculation(toolInfo);
+            double howMany = area / durability;
+            return howMany;
+        }
     }
 }
