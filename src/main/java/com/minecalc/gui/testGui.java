@@ -24,6 +24,7 @@ public class testGui extends LightweightGuiDescription {
     public static Item toolInfo = getHeldItem();
 
     public testGui() {
+        toolInfo = getHeldItem();
         //setValuesPanel
         WGridPanel setValuesPanel = new WGridPanel();
         setRootPanel(setValuesPanel);
@@ -102,7 +103,7 @@ public class testGui extends LightweightGuiDescription {
         WLabel toolInfoLabel = new WLabel(Text.translatable(toolStuff));
 
         String areaInformation;
-        if(howManyAmount() == 0.0)
+        if(howManyAmount() == 0.0 || toolInfo == null)
         {
             areaInformation = "No area defined or no tool in hand!";
         }
@@ -218,6 +219,9 @@ public class testGui extends LightweightGuiDescription {
         {
             area = area * -1;
         }
+
+        //run new methods
+        toolInfo = getHeldItem();
         return area;
     }
 
@@ -252,11 +256,44 @@ public class testGui extends LightweightGuiDescription {
 
     public int durabilityCalculation(Item tool)
     {
+        if(tool == null)
+        {
+            return 0;
+        }
         //change tool to item stack
         ItemStack toolStack = new ItemStack(tool);
         int durability = tool.getMaxDamage();
+        System.out.println(durability);
+
+        //check what item the tool is and then get the durability
+        if(tool == Items.WOODEN_PICKAXE || tool == Items.WOODEN_SHOVEL)
+        {
+            durability = 60;
+        }
+        if(tool == Items.WOODEN_PICKAXE || tool == Items.WOODEN_SHOVEL)
+        {
+            durability = 132;
+        }
+        if(tool == Items.IRON_PICKAXE || tool == Items.IRON_SHOVEL)
+        {
+            durability = 251;
+        }
+        if(tool == Items.GOLDEN_PICKAXE || tool == Items.GOLDEN_SHOVEL)
+        {
+            durability = 33;
+        }
+        if(tool == Items.DIAMOND_PICKAXE || tool == Items.DIAMOND_SHOVEL)
+        {
+            durability = 1562;
+        }
+        if(tool == Items.NETHERITE_PICKAXE || tool == Items.NETHERITE_SHOVEL)
+        {
+            durability = 2032;
+        }
+
         //get enchant of unbreaking
         int unbreaking = EnchantmentHelper.getLevel(Enchantments.UNBREAKING, toolStack);
+        System.out.println(unbreaking);
 
         //calculate durability
         if (unbreaking == 1)
@@ -275,6 +312,7 @@ public class testGui extends LightweightGuiDescription {
         {
             durability = durability;
         }
+        System.out.println(durability);
         return durability;
     }
 
@@ -289,6 +327,10 @@ public class testGui extends LightweightGuiDescription {
         else
         {
             double durability = durabilityCalculation(toolInfo);
+            if(durability == 0)
+            {
+                return 0.0;
+            }
             double howMany = area / durability;
             return howMany;
         }
