@@ -68,9 +68,9 @@ public class testGui extends LightweightGuiDescription {
         setValuesPanel.add(block2lab, 1, 3, 1, 1);
         setValuesPanel.add(block3lab, 1, 5, 1, 1);
 
-        setValuesPanel.add(block1coords, 7, 1, 10, 1);
-        setValuesPanel.add(block2coords, 7, 3, 10, 1);
-        setValuesPanel.add(block3coords, 7, 5, 10, 1);
+        setValuesPanel.add(block1coords, 8, 1, 8, 1);
+        setValuesPanel.add(block2coords, 8, 3, 8, 1);
+        setValuesPanel.add(block3coords, 8, 5, 8, 1);
 
         //area panel
         WGridPanel areaPanel = new WGridPanel();
@@ -78,8 +78,18 @@ public class testGui extends LightweightGuiDescription {
         areaPanel.setSize(300, 200);
 
         //area panel labels
-        WLabel areaLabel = new WLabel(Text.translatable("Area: " + areaValue));
-        areaPanel.add(areaLabel, 1, 1, 1, 1);
+        if(areaValue == 0)
+        {
+            WLabel areaLabel = new WLabel(Text.translatable("Area: " + "No Area Defined"));
+            areaPanel.add(areaLabel, 1, 1, 1, 1);
+        }
+        else
+        {
+            WLabel areaLabel = new WLabel(Text.translatable("Area: " + areaValue));
+            areaPanel.add(areaLabel, 1, 1, 1, 1);
+        }
+
+
 
         //area calculation panel
         WGridPanel areaCalcPanel = new WGridPanel();
@@ -91,7 +101,7 @@ public class testGui extends LightweightGuiDescription {
         if(toolInfo == null)
         {
             toolName = "No Tool in Hand!";
-            toolStuff = "Please have a tool in your hand before using this service!";
+            toolStuff = "Please equip a tool before using this service!";
         }
         else
         {
@@ -102,21 +112,18 @@ public class testGui extends LightweightGuiDescription {
         WLabel toolLabel = new WLabel(Text.translatable("Tool: " + toolName));
         WLabel toolInfoLabel = new WLabel(Text.translatable(toolStuff));
 
-        String areaInformation;
+        String areaInformation = null;
         if(howManyAmount() == 0.0 || toolInfo == null)
         {
             areaInformation = "No area defined or no tool in hand!";
         }
         else
         {
+            String toolAmount = String.valueOf(howManyAmount()) + " ";
             //check if the tool is a shovel or pickaxe
-            if(toolInfo == Items.WOODEN_SHOVEL || toolInfo == Items.STONE_SHOVEL || toolInfo == Items.IRON_SHOVEL || toolInfo == Items.GOLDEN_SHOVEL || toolInfo == Items.DIAMOND_SHOVEL || toolInfo == Items.NETHERITE_SHOVEL)
+            if(toolInfo == Items.WOODEN_SHOVEL || toolInfo == Items.STONE_SHOVEL || toolInfo == Items.IRON_SHOVEL || toolInfo == Items.GOLDEN_SHOVEL || toolInfo == Items.DIAMOND_SHOVEL || toolInfo == Items.NETHERITE_SHOVEL || toolInfo == Items.WOODEN_PICKAXE || toolInfo == Items.STONE_PICKAXE || toolInfo == Items.IRON_PICKAXE || toolInfo == Items.GOLDEN_PICKAXE || toolInfo == Items.DIAMOND_PICKAXE || toolInfo == Items.NETHERITE_PICKAXE)
             {
-                areaInformation = "It will take " + howManyAmount() + toolName + "'s to clear the area of " + areaValue + " blocks!";
-            }
-            else
-            {
-                areaInformation = "It will take " + howManyAmount() + toolName + "'s to clear the area of " + areaValue + " blocks!";
+                areaInformation = "It will take " + toolAmount + toolName + "'s to clear " + areaValue + " blocks!";
             }
         }
         WLabel areaCaluclationInfo = new WLabel(Text.translatable(areaInformation));
@@ -230,7 +237,7 @@ public class testGui extends LightweightGuiDescription {
     {
         if (blockGiven == null)
         {
-            return "null";
+            return "No Block Selected!";
         }
         int blockX = blockGiven.getX();
         int blockY = blockGiven.getY();
@@ -332,6 +339,8 @@ public class testGui extends LightweightGuiDescription {
                 return 0.0;
             }
             double howMany = area / durability;
+            //trim howMany to 2 decimal places
+            howMany = Math.round(howMany * 100.0) / 100.0;
             return howMany;
         }
     }
