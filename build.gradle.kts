@@ -11,6 +11,7 @@ repositories {
 	// Repositories for dependencies
 	mavenCentral()
 	maven("https://server.bbkr.space/artifactory/libs-release")
+	maven("https://api.modrinth.com/maven")
 }
 
 dependencies {

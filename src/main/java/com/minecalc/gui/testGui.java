@@ -1,5 +1,6 @@
 package com.minecalc.gui;
 
+import com.minecalc.config.ModConfigs;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
 import net.minecraft.client.MinecraftClient;
@@ -16,9 +17,9 @@ import net.minecraft.util.math.BlockPos;
 
 public class testGui extends LightweightGuiDescription {
 
-    public static BlockPos block1;
-    public static BlockPos block2;
-    public static BlockPos block3;
+    public static BlockPos block1 = assignValues(0);
+    public static BlockPos block2 = assignValues(1);
+    public static BlockPos block3 = assignValues(2);
     public static int areaValue;
 
     public static Item toolInfo = getHeldItem();
@@ -101,7 +102,7 @@ public class testGui extends LightweightGuiDescription {
         if(toolInfo == null)
         {
             toolName = "No Tool in Hand!";
-            toolStuff = "Please equip a tool before using this service!";
+            toolStuff = "Equip a tool before using this service!";
         }
         else
         {
@@ -133,9 +134,24 @@ public class testGui extends LightweightGuiDescription {
         areaCalcPanel.add(toolInfoLabel, 1, 3, 1, 1);
         areaCalcPanel.add(areaCaluclationInfo, 1, 5, 1, 1);
 
+        //save coordiantes tab
+        WGridPanel saveCoordsPanel = new WGridPanel();
+        saveCoordsPanel.setSize(300, 200);
+
+        //save coordinates panel labels
+        WButton saveCoordsButton = new WButton(Text.translatable("Save Coordinates to File"));
+        saveCoordsButton.setOnClick(() -> {
+            System.out.println("save coords button pressed");
+            changeConfigValues();
+        });
+
+        //save coordinates panel add
+        saveCoordsPanel.add(saveCoordsButton, 1, 1, 1, 1);
+
         //tabs
         WTabPanel tabs = new WTabPanel();
         tabs.add(setValuesPanel, tab -> tab.title(Text.literal("Set Values")));
+        tabs.add(saveCoordsPanel, tab -> tab.title(Text.literal("Save Values")));
         tabs.add(areaPanel, tab -> tab.title(Text.literal("Area Value")));
         tabs.add(areaCalcPanel, tab -> tab.title(Text.literal("Area Calculation")));
 
@@ -343,5 +359,53 @@ public class testGui extends LightweightGuiDescription {
             howMany = Math.round(howMany * 100.0) / 100.0;
             return howMany;
         }
+    }
+
+    public static BlockPos assignValues(int blockNum)
+    {
+        int x;
+        int y;
+        int z;
+        if(blockNum == 0)
+        {
+            x = ModConfigs.Block1X;
+            y = ModConfigs.Block1Y;
+            z = ModConfigs.Block1Z;
+        }
+        if(blockNum == 1)
+        {
+            x = ModConfigs.Block2X;
+            y = ModConfigs.Block2Y;
+            z = ModConfigs.Block2Z;
+        }
+        if(blockNum == 2)
+        {
+            x = ModConfigs.Block3X;
+            y = ModConfigs.Block3Y;
+            z = ModConfigs.Block3Z;
+        }
+        else
+        {
+            x = 0;
+            y = 0;
+            z = 0;
+        }
+        BlockPos blockPos = new BlockPos(x, y, z);
+        return blockPos;
+    }
+    public static void changeConfigValues()
+    {
+        ModConfigs.Block1X = block1.getX();
+        ModConfigs.Block1Y = block1.getY();
+        ModConfigs.Block1Z = block1.getZ();
+        ModConfigs.Block2X = block2.getX();
+        ModConfigs.Block2Y = block2.getY();
+        ModConfigs.Block2Z = block2.getZ();
+        ModConfigs.Block3X = block3.getX();
+        ModConfigs.Block3Y = block3.getY();
+        ModConfigs.Block3Z = block3.getZ();
+
+        System.out.println(ModConfigs.Block1X);
+        System.out.println("Values should be saved");
     }
 }
