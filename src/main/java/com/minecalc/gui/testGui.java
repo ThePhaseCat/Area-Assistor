@@ -134,24 +134,9 @@ public class testGui extends LightweightGuiDescription {
         areaCalcPanel.add(toolInfoLabel, 1, 3, 1, 1);
         areaCalcPanel.add(areaCaluclationInfo, 1, 5, 1, 1);
 
-        //save coordiantes tab
-        WGridPanel saveCoordsPanel = new WGridPanel();
-        saveCoordsPanel.setSize(300, 200);
-
-        //save coordinates panel labels
-        WButton saveCoordsButton = new WButton(Text.translatable("Save Coordinates to File"));
-        saveCoordsButton.setOnClick(() -> {
-            System.out.println("save coords button pressed");
-            changeConfigValues();
-        });
-
-        //save coordinates panel add
-        saveCoordsPanel.add(saveCoordsButton, 1, 1, 1, 1);
-
         //tabs
         WTabPanel tabs = new WTabPanel();
         tabs.add(setValuesPanel, tab -> tab.title(Text.literal("Set Values")));
-        tabs.add(saveCoordsPanel, tab -> tab.title(Text.literal("Save Values")));
         tabs.add(areaPanel, tab -> tab.title(Text.literal("Area Value")));
         tabs.add(areaCalcPanel, tab -> tab.title(Text.literal("Area Calculation")));
 
@@ -200,24 +185,24 @@ public class testGui extends LightweightGuiDescription {
         int block3y = block3.getY();
         int block2y = block2.getY();
 
-        if (block2x < 0){
-            block2x = block2x * -1;
-        }
-        if (block1x < 0){
-            block1x = block1x * -1;
-        }
-        if (block2z < 0){
-            block2z = block2z * -1;
-        }
-        if (block1z < 0){
-            block1z = block1z * -1;
-        }
-        if (block3y < 0){
-            block3y = block3y * -1;
-        }
-        if (block2y < 0){
-            block2y = block2y * -1;
-        }
+        //if (block2x < 0){
+            //block2x = block2x * -1;
+        //}
+        //if (block1x < 0){
+            //block1x = block1x * -1;
+        //}
+        //if (block2z < 0){
+            //block2z = block2z * -1;
+        //}
+       // if (block1z < 0){
+            //block1z = block1z * -1;
+        //}
+        //if (block3y < 0){
+           // block3y = block3y * -1;
+        //}
+        //if (block2y < 0){
+            //block2y = block2y * -1;
+        //}
 
         int length = block2x - block1x;
         int width = block2z - block1z;

@@ -19,7 +19,6 @@ public class MineCalc implements ModInitializer {
     @Override
     public void onInitialize() {
         LOGGER.info("MineCalc loaded!");
-        ModItems.RegisterItems();
         ModConfigs.registerConfigs();
     }
 }
