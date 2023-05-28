@@ -4,9 +4,10 @@
   "version": "${version}",
 
   "name": "MineCalc",
-  "description": "Attempt to port my Java Application, MineCalc, to Minecraft as a mod. This will probably fail.",
+  "description": "MineCalc lets you select block positions and calculates the area and how many of the tool you're holding you need to clear the area!",
   "authors": [
-    "ThePhaseCat"
+    "ThePhaseCat",
+    "trainb0y"
   ],
   "contact": {
     "homepage": "https://github.com/ThePhaseCat/MineCalc-Mod",
@@ -32,7 +33,7 @@
   "depends": {
     "fabricloader": ">=0.14.19",
     "fabric-api": "*",
-    "minecraft": "1.19.2",
+    "minecraft": "1.19.4",
     "java": ">=17"
   }
 }

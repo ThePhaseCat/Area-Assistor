@@ -1,4 +1,4 @@
 {
-  "key.category.minecalc.test": "Minecalc Keybinds",
-  "key.minecalc.test": "Test GUI"
+  "key.category.minecalc.minecalc_category": "MineCalc",
+  "key.minecalc.open_minecalc": "Open MineCalc GUI"
 }

@@ -15,7 +15,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 
-public class testGui extends LightweightGuiDescription {
+public class MineCalcGui extends LightweightGuiDescription {
 
     public static BlockPos block1 = assignValues(0);
     public static BlockPos block2 = assignValues(1);
@@ -24,7 +24,7 @@ public class testGui extends LightweightGuiDescription {
 
     public static Item toolInfo = getHeldItem();
 
-    public testGui() {
+    public MineCalcGui() {
         toolInfo = getHeldItem();
         //setValuesPanel
         WGridPanel setValuesPanel = new WGridPanel();
@@ -47,21 +47,21 @@ public class testGui extends LightweightGuiDescription {
             block1 = getBlockPos();
             block1lab.setText(Text.translatable("Block 1: " + BlockCoords(block1)));
             areaValue = getAreaValue();
-            MinecraftClient.getInstance().setScreen(new testScreen(new testGui()));
+            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
         });
         block2coords.setOnClick(() -> {
             System.out.println("block 2 button pressed");
             block2 = getBlockPos();
             block2lab.setText(Text.translatable("Block 2: " + BlockCoords(block2)));
             areaValue = getAreaValue();
-            MinecraftClient.getInstance().setScreen(new testScreen(new testGui()));
+            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
         });
         block3coords.setOnClick(() -> {
             System.out.println("block 3 button pressed");
             block3 = getBlockPos();
             block3lab.setText(Text.translatable("Block 3: " + BlockCoords(block3)));
             areaValue = getAreaValue();
-            MinecraftClient.getInstance().setScreen(new testScreen(new testGui()));
+            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
         });
 
 

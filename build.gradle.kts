@@ -22,8 +22,8 @@ dependencies {
 	modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
 
-	modImplementation("io.github.cottonmc:LibGui:6.4.0+1.19")
-	include("io.github.cottonmc:LibGui:6.4.0+1.19")
+	modImplementation("io.github.cottonmc:LibGui:7.1.0+1.19.4")
+	include("io.github.cottonmc:LibGui:7.1.0+1.19.4")
 
 }
 

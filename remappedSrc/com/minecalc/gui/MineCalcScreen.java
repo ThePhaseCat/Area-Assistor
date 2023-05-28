@@ -3,9 +3,9 @@ package com.minecalc.gui;
 import io.github.cottonmc.cotton.gui.GuiDescription;
 import io.github.cottonmc.cotton.gui.client.CottonClientScreen;
 
-public class testScreen extends CottonClientScreen {
+public class MineCalcScreen extends CottonClientScreen {
 
-    public testScreen(GuiDescription description) {
+    public MineCalcScreen(GuiDescription description) {
         super(description);
     }
 }
