@@ -42,27 +42,32 @@ public class MineCalcGui extends LightweightGuiDescription {
         WButton block1coords = new WButton(Text.translatable("Change Block 1 Coords"));
         WButton block2coords = new WButton(Text.translatable("Change Block 2 Coords"));
         WButton block3coords = new WButton(Text.translatable("Change Block 3 Coords"));
+        WButton resetValues = new WButton(Text.translatable("Reset Values"));
 
         //setValuesPanel button logic
         block1coords.setOnClick(() -> {
-            System.out.println("block 1 button pressed");
             block1 = getBlockPos();
             block1lab.setText(Text.translatable("Block 1: " + BlockCoords(block1)));
             areaValue = getAreaValue();
             MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
         });
         block2coords.setOnClick(() -> {
-            System.out.println("block 2 button pressed");
             block2 = getBlockPos();
             block2lab.setText(Text.translatable("Block 2: " + BlockCoords(block2)));
             areaValue = getAreaValue();
             MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
         });
         block3coords.setOnClick(() -> {
-            System.out.println("block 3 button pressed");
             block3 = getBlockPos();
             block3lab.setText(Text.translatable("Block 3: " + BlockCoords(block3)));
             areaValue = getAreaValue();
+            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
+        });
+        resetValues.setOnClick(() -> {
+            block1 = BlockPos.ORIGIN;
+            block2 = BlockPos.ORIGIN;
+            block3 = BlockPos.ORIGIN;
+            areaValue = 0;
             MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
         });
 
@@ -70,6 +75,7 @@ public class MineCalcGui extends LightweightGuiDescription {
         setValuesPanel.add(block1lab, 1, 1, 1, 1);
         setValuesPanel.add(block2lab, 1, 3, 1, 1);
         setValuesPanel.add(block3lab, 1, 5, 1, 1);
+        setValuesPanel.add(resetValues, 1, 7, 4, 1);
 
         setValuesPanel.add(block1coords, 8, 1, 8, 1);
         setValuesPanel.add(block2coords, 8, 3, 8, 1);
@@ -98,26 +104,41 @@ public class MineCalcGui extends LightweightGuiDescription {
         WGridPanel areaCalcPanel = new WGridPanel();
         areaCalcPanel.setSize(300, 200);
 
-        WButton noUnbreaking = new WButton(Text.translatable("No Unbreaking on Tool"));
+        WLabel enchantmentText = new WLabel(Text.translatable("Unbreaking Level: " + eLevel));
+        if(eLevel == 0){
+            enchantmentText.setText(Text.translatable("Unbreaking Level: " + "No Unbreaking"));
+        }
+        else if(eLevel == 1){
+            enchantmentText.setText(Text.translatable("Unbreaking Level: " + "Unbreaking 1"));
+        }
+        else if(eLevel == 2){
+            enchantmentText.setText(Text.translatable("Unbreaking Level: " + "Unbreaking 2"));
+        }
+        else if(eLevel == 3){
+            enchantmentText.setText(Text.translatable("Unbreaking Level: " + "Unbreaking 3"));
+        }
+
+
+        WButton noUnbreaking = new WButton(Text.translatable("No Unbreaking"));
         WButton unbreaking1 = new WButton(Text.translatable("Unbreaking 1"));
         WButton unbreaking2 = new WButton(Text.translatable("Unbreaking 2"));
         WButton unbreaking3 = new WButton(Text.translatable("Unbreaking 3"));
 
         noUnbreaking.setOnClick(() -> {
-            System.out.println("no unbreaking button pressed");
             eLevel = 0;
+            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
         });
         unbreaking1.setOnClick(() -> {
-            System.out.println("unbreaking 1 button pressed");
             eLevel = 1;
+            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
         });
         unbreaking2.setOnClick(() -> {
-            System.out.println("unbreaking 2 button pressed");
             eLevel = 2;
+            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
         });
         unbreaking3.setOnClick(() -> {
-            System.out.println("unbreaking 3 button pressed");
             eLevel = 3;
+            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
         });
 
         //area calculation panel labels
@@ -155,12 +176,13 @@ public class MineCalcGui extends LightweightGuiDescription {
 
         //area calculation panel add
         areaCalcPanel.add(toolLabel, 1, 1, 1, 1);
-        areaCalcPanel.add(noUnbreaking, 1, 2, 5, 1);
-        areaCalcPanel.add(unbreaking1, 1, 3, 5, 1);
-        areaCalcPanel.add(unbreaking2, 1, 4, 5, 1);
-        areaCalcPanel.add(unbreaking3, 1, 5, 5, 1);
-        areaCalcPanel.add(toolInfoLabel, 1, 7, 1, 1);
-        areaCalcPanel.add(areaCaluclationInfo, 1, 8, 1, 1);
+        areaCalcPanel.add(enchantmentText, 1, 2, 1, 1);
+        areaCalcPanel.add(noUnbreaking, 4, 3, 6, 1);
+        areaCalcPanel.add(unbreaking1, 4, 4, 6, 1);
+        areaCalcPanel.add(unbreaking2, 4, 5, 6, 1);
+        areaCalcPanel.add(unbreaking3, 4, 6, 6, 1);
+        areaCalcPanel.add(toolInfoLabel, 1, 8, 1, 1);
+        areaCalcPanel.add(areaCaluclationInfo, 1, 9, 1, 1);
 
         //tabs
         WTabPanel tabs = new WTabPanel();
@@ -212,25 +234,6 @@ public class MineCalcGui extends LightweightGuiDescription {
         //height
         int block3y = block3.getY();
         int block2y = block2.getY();
-
-        //if (block2x < 0){
-        //block2x = block2x * -1;
-        //}
-        //if (block1x < 0){
-        //block1x = block1x * -1;
-        //}
-        //if (block2z < 0){
-        //block2z = block2z * -1;
-        //}
-        // if (block1z < 0){
-        //block1z = block1z * -1;
-        //}
-        //if (block3y < 0){
-        // block3y = block3y * -1;
-        //}
-        //if (block2y < 0){
-        //block2y = block2y * -1;
-        //}
 
         int length = block2x - block1x;
         int width = block2z - block1z;
@@ -299,7 +302,6 @@ public class MineCalcGui extends LightweightGuiDescription {
         //change tool to item stack
         ItemStack toolStack = new ItemStack(tool);
         int durability = tool.getMaxDamage();
-        System.out.println(durability);
 
         //check what item the tool is and then get the durability
         if(tool == Items.WOODEN_PICKAXE || tool == Items.WOODEN_SHOVEL)
@@ -348,7 +350,6 @@ public class MineCalcGui extends LightweightGuiDescription {
         {
             durability = durability;
         }
-        System.out.println(durability);
         return durability;
     }
 
