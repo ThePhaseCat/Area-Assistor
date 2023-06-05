@@ -1,4 +1,4 @@
-# MineCalc
+# Area Assistor
 
 A mod that ports my Java Application, MineCalc, into Minecraft as a client-side mod! 
 This is also my first attempt at a Minecraft Mod, and as such, I would not be surprised if there are bugs.
@@ -10,7 +10,7 @@ Fabric Loader `>=0.14.19`
 
 # How to use
 
-To start, open the MineCalc GUI using the key 0 (Default Bind)
+To start, open the Area Assistor GUI using the key 0 (Default Bind)
 
 The tabs at the top relate to different services of the mod. Currently, there are three services: Set Values, Area Value, and Area Calculation
 ![2023-06-05_11 34 08](https://github.com/ThePhaseCat/MineCalc-Mod/assets/84151006/c89f8f20-8e18-48b2-b5e9-3aac2e1aaa23)
