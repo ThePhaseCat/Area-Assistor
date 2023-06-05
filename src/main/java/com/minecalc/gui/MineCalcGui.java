@@ -24,6 +24,8 @@ public class MineCalcGui extends LightweightGuiDescription {
 
     public static Item toolInfo = getHeldItem();
 
+    public static int eLevel = 0;
+
     public MineCalcGui() {
         toolInfo = getHeldItem();
         //setValuesPanel
@@ -96,6 +98,28 @@ public class MineCalcGui extends LightweightGuiDescription {
         WGridPanel areaCalcPanel = new WGridPanel();
         areaCalcPanel.setSize(300, 200);
 
+        WButton noUnbreaking = new WButton(Text.translatable("No Unbreaking on Tool"));
+        WButton unbreaking1 = new WButton(Text.translatable("Unbreaking 1"));
+        WButton unbreaking2 = new WButton(Text.translatable("Unbreaking 2"));
+        WButton unbreaking3 = new WButton(Text.translatable("Unbreaking 3"));
+
+        noUnbreaking.setOnClick(() -> {
+            System.out.println("no unbreaking button pressed");
+            eLevel = 0;
+        });
+        unbreaking1.setOnClick(() -> {
+            System.out.println("unbreaking 1 button pressed");
+            eLevel = 1;
+        });
+        unbreaking2.setOnClick(() -> {
+            System.out.println("unbreaking 2 button pressed");
+            eLevel = 2;
+        });
+        unbreaking3.setOnClick(() -> {
+            System.out.println("unbreaking 3 button pressed");
+            eLevel = 3;
+        });
+
         //area calculation panel labels
         String toolName;
         String toolStuff;
@@ -107,7 +131,7 @@ public class MineCalcGui extends LightweightGuiDescription {
         else
         {
             toolName = toolInfo.getName().getString();
-            toolStuff = "Durability: " + durabilityCalculation(toolInfo);
+            toolStuff = "Durability: " + durabilityCalculation(toolInfo, eLevel);
         }
 
         WLabel toolLabel = new WLabel(Text.translatable("Tool: " + toolName));
@@ -131,8 +155,12 @@ public class MineCalcGui extends LightweightGuiDescription {
 
         //area calculation panel add
         areaCalcPanel.add(toolLabel, 1, 1, 1, 1);
-        areaCalcPanel.add(toolInfoLabel, 1, 3, 1, 1);
-        areaCalcPanel.add(areaCaluclationInfo, 1, 5, 1, 1);
+        areaCalcPanel.add(noUnbreaking, 1, 2, 5, 1);
+        areaCalcPanel.add(unbreaking1, 1, 3, 5, 1);
+        areaCalcPanel.add(unbreaking2, 1, 4, 5, 1);
+        areaCalcPanel.add(unbreaking3, 1, 5, 5, 1);
+        areaCalcPanel.add(toolInfoLabel, 1, 7, 1, 1);
+        areaCalcPanel.add(areaCaluclationInfo, 1, 8, 1, 1);
 
         //tabs
         WTabPanel tabs = new WTabPanel();
@@ -262,7 +290,7 @@ public class MineCalcGui extends LightweightGuiDescription {
         }
     }
 
-    public int durabilityCalculation(Item tool)
+    public int durabilityCalculation(Item tool, int enchantLevel)
     {
         if(tool == null)
         {
@@ -278,7 +306,7 @@ public class MineCalcGui extends LightweightGuiDescription {
         {
             durability = 60;
         }
-        if(tool == Items.WOODEN_PICKAXE || tool == Items.WOODEN_SHOVEL)
+        if(tool == Items.STONE_PICKAXE || tool == Items.STONE_SHOVEL)
         {
             durability = 132;
         }
@@ -299,9 +327,9 @@ public class MineCalcGui extends LightweightGuiDescription {
             durability = 2032;
         }
 
+
         //get enchant of unbreaking
-        int unbreaking = EnchantmentHelper.getLevel(Enchantments.UNBREAKING, toolStack);
-        System.out.println(unbreaking);
+        int unbreaking = enchantLevel;
 
         //calculate durability
         if (unbreaking == 1)
@@ -334,7 +362,7 @@ public class MineCalcGui extends LightweightGuiDescription {
         }
         else
         {
-            double durability = durabilityCalculation(toolInfo);
+            double durability = durabilityCalculation(toolInfo, eLevel);
             if(durability == 0)
             {
                 return 0.0;
