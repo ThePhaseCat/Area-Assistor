@@ -1,7 +1,7 @@
-package com.minecalc.event;
+package com.areaassistor.event;
 
-import com.minecalc.gui.MineCalcScreen;
-import com.minecalc.gui.MineCalcGui;
+import com.areaassistor.gui.AreaAssistorScreen;
+import com.areaassistor.gui.AreaAssistorGui;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
@@ -21,7 +21,7 @@ public class KeyInputHandler {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (open_minecalc_key.wasPressed())
             {
-                MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
+                MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
             }
         });
     }

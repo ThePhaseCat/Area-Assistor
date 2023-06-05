@@ -1,6 +1,6 @@
-package com.minecalc.gui;
+package com.areaassistor.gui;
 
-import com.minecalc.config.ModConfigs;
+import com.areaassistor.config.ModConfigs;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
 import net.minecraft.client.MinecraftClient;

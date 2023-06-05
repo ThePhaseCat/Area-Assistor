@@ -1,6 +1,6 @@
-package com.minecalc.mixin;
+package com.areaassistor.mixin;
 
-import com.minecalc.MineCalc;
+import com.areaassistor.AreaAssistor;
 import net.minecraft.client.gui.screen.TitleScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -8,11 +8,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(TitleScreen.class)
-public class MineCalcMixin
+public class AreaAssistorMixin
 {
     @Inject (at = @At("HEAD"), method = "init()V")
     private void init(CallbackInfo info)
     {
-        MineCalc.LOGGER.info("MineCalc loaded!");
+        AreaAssistor.LOGGER.info("AreaAssistor loaded!");
     }
 }

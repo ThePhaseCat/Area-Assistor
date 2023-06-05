@@ -1,7 +1,7 @@
-package com.minecalc.config;
+package com.areaassistor.config;
 
 import com.mojang.datafixers.util.Pair;
-import com.minecalc.MineCalc;
+import com.areaassistor.MineCalc;
 import net.minecraft.util.math.BlockPos;
 
 public class ModConfigs {

@@ -1,6 +1,6 @@
-package com.minecalc;
+package com.areaassistor;
 
-import com.minecalc.event.KeyInputHandler;
+import com.areaassistor.event.KeyInputHandler;
 import net.fabricmc.api.ClientModInitializer;
 
 public class MineCalcClient implements ClientModInitializer {

@@ -1,8 +1,7 @@
-package com.minecalc.config;
+package com.areaassistor.config;
 
 import com.mojang.datafixers.util.Pair;
-import com.minecalc.MineCalc;
-import net.minecraft.util.math.BlockPos;
+import com.areaassistor.AreaAssistor;
 
 public class ModConfigs {
     public static SimpleConfig CONFIG;
@@ -23,7 +22,7 @@ public class ModConfigs {
         createConfigs();
 
 
-        CONFIG = SimpleConfig.of(MineCalc.MOD_ID + "config").provider(configs).request();
+        CONFIG = SimpleConfig.of(AreaAssistor.MOD_ID + "config").provider(configs).request();
 
         assignConfigs();
     }

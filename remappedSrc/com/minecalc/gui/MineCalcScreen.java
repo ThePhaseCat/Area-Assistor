@@ -1,4 +1,4 @@
-package com.minecalc.gui;
+package com.areaassistor.gui;
 
 import io.github.cottonmc.cotton.gui.GuiDescription;
 import io.github.cottonmc.cotton.gui.client.CottonClientScreen;

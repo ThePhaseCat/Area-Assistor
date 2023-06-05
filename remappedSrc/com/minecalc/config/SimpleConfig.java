@@ -1,4 +1,4 @@
-package com.minecalc.config;
+package com.areaassistor.config;
 
 /*
  * Copyright (c) 2021 magistermaks

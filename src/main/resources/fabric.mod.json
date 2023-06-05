@@ -20,14 +20,14 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.minecalc.MineCalc"
+      "com.areaassistor.AreaAssistor"
     ],
     "client": [
-      "com.minecalc.MineCalcClient"
+      "com.areaassistor.AreaAssistorClient"
     ]
   },
   "mixins": [
-    "minecalc.mixins.json"
+    "areaareaassistor.mixins.json"
   ],
 
   "depends": {

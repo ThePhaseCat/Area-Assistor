@@ -1,11 +1,9 @@
-package com.minecalc.gui;
+package com.areaassistor.gui;
 
-import com.minecalc.config.ModConfigs;
+import com.areaassistor.config.ModConfigs;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,7 +13,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 
-public class MineCalcGui extends LightweightGuiDescription {
+public class AreaAssistorGui extends LightweightGuiDescription {
 
     public static BlockPos block1 = assignValues(0);
     public static BlockPos block2 = assignValues(1);
@@ -26,7 +24,7 @@ public class MineCalcGui extends LightweightGuiDescription {
 
     public static int eLevel = 0;
 
-    public MineCalcGui() {
+    public AreaAssistorGui() {
         toolInfo = getHeldItem();
         //setValuesPanel
         WGridPanel setValuesPanel = new WGridPanel();
@@ -49,26 +47,26 @@ public class MineCalcGui extends LightweightGuiDescription {
             block1 = getBlockPos();
             block1lab.setText(Text.translatable("Block 1: " + BlockCoords(block1)));
             areaValue = getAreaValue();
-            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
+            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
         block2coords.setOnClick(() -> {
             block2 = getBlockPos();
             block2lab.setText(Text.translatable("Block 2: " + BlockCoords(block2)));
             areaValue = getAreaValue();
-            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
+            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
         block3coords.setOnClick(() -> {
             block3 = getBlockPos();
             block3lab.setText(Text.translatable("Block 3: " + BlockCoords(block3)));
             areaValue = getAreaValue();
-            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
+            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
         resetValues.setOnClick(() -> {
             block1 = BlockPos.ORIGIN;
             block2 = BlockPos.ORIGIN;
             block3 = BlockPos.ORIGIN;
             areaValue = 0;
-            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
+            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
 
 
@@ -126,19 +124,19 @@ public class MineCalcGui extends LightweightGuiDescription {
 
         noUnbreaking.setOnClick(() -> {
             eLevel = 0;
-            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
+            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
         unbreaking1.setOnClick(() -> {
             eLevel = 1;
-            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
+            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
         unbreaking2.setOnClick(() -> {
             eLevel = 2;
-            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
+            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
         unbreaking3.setOnClick(() -> {
             eLevel = 3;
-            MinecraftClient.getInstance().setScreen(new MineCalcScreen(new MineCalcGui()));
+            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
 
         //area calculation panel labels

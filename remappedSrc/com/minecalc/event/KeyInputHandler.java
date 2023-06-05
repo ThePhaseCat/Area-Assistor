@@ -1,7 +1,7 @@
-package com.minecalc.event;
+package com.areaassistor.event;
 
-import com.minecalc.gui.MineCalcScreen;
-import com.minecalc.gui.MineCalcGui;
+import com.areaassistor.gui.MineCalcScreen;
+import com.areaassistor.gui.MineCalcGui;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;

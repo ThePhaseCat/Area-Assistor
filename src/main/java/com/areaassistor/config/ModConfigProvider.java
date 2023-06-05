@@ -1,4 +1,4 @@
-package com.minecalc.config;
+package com.areaassistor.config;
 
 import com.mojang.datafixers.util.Pair;
 
