@@ -1,7 +1,12 @@
 # MineCalc
 
-A mod that ports my Java Application, MineCalc, into Minecraft as a client-side mod! Currently supports 1.19.4!
+A mod that ports my Java Application, MineCalc, into Minecraft as a client-side mod! 
 This is also my first attempt at a Minecraft Mod, and as such, I would not be surprised if there are bugs.
+
+# Requirements
+Minecraft `1.19.4`
+
+Fabric Loader `>=0.14.19`
 
 # How to use
 
@@ -23,10 +28,9 @@ This will show the value of the area selected using the Set Values service!
 This will calculate how many pickaxes/shovels will be required to clear out the area selected using the Set Values service after setting what level of Unbreaking is on your tool! For this service to work, you must be holding a pickaxe or shovel in your hand before opening the GUI!
 ![2023-06-05_11 36 21](https://github.com/ThePhaseCat/MineCalc-Mod/assets/84151006/62cf622c-0c18-4907-b0aa-952b4a3f4e55)
 
-## License
+## Contributing
 
-This project is available under the CC0 license. Feel free to use this mod in mod-packs or in other mods!
+Feel free to contribute to this project as it's available under the MIT license. Find any issues or have a suggestion, report it on [Github](https://github.com/ThePhaseCat/MineCalc-Mod)!
 
+Thanks to [LibGui](https://github.com/CottonMC/LibGui) for the GUI Library!
 
-## Credits
-GUI made using https://github.com/CottonMC/LibGui
