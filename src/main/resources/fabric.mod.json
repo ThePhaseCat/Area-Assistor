@@ -14,7 +14,7 @@
     "sources": "https://github.com/ThePhaseCat/Area-Assistor"
   },
 
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/minecalc/icon.png",
 
   "environment": "*",
