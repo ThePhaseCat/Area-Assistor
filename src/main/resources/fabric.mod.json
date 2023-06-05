@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "id": "minecalc",
+  "id": "areaassistor",
   "version": "${version}",
 
-  "name": "MineCalc",
-  "description": "MineCalc lets you select block positions and calculates the area and how many of the tool you're holding you need to clear the area!",
+  "name": "Area Assistor",
+  "description": "Area Assistor lets you select block positions and calculates the area and how many of the tool you're holding you need to clear the area!",
   "authors": [
     "ThePhaseCat",
     "trainb0y"
   ],
   "contact": {
-    "homepage": "https://github.com/ThePhaseCat/MineCalc-Mod",
-    "sources": "https://github.com/ThePhaseCat/MineCalc-Mod"
+    "homepage": "https://github.com/ThePhaseCat/Area-Assistor",
+    "sources": "https://github.com/ThePhaseCat/Area-Assistor"
   },
 
   "license": "CC0-1.0",
