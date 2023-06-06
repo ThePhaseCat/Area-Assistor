@@ -8,6 +8,8 @@ Minecraft `1.19.4`
 
 Fabric Loader `>=0.14.19`
 
+Fabric API `>=0.83.0`
+
 # How to use
 
 To start, open the Area Assistor GUI using the key 0 (Default Bind)
