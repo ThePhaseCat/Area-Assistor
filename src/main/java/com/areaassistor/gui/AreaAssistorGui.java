@@ -24,6 +24,8 @@ public class AreaAssistorGui extends LightweightGuiDescription {
 
     public static int eLevel = 0;
 
+    public static BlockPos playerPos = getPlayerPosition();
+
     public AreaAssistorGui() {
         toolInfo = getHeldItem();
         //setValuesPanel
@@ -181,6 +183,7 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         areaCalcPanel.add(unbreaking3, 4, 6, 6, 1);
         areaCalcPanel.add(toolInfoLabel, 1, 8, 1, 1);
         areaCalcPanel.add(areaCaluclationInfo, 1, 9, 1, 1);
+
 
         //tabs
         WTabPanel tabs = new WTabPanel();
@@ -419,5 +422,13 @@ public class AreaAssistorGui extends LightweightGuiDescription {
 
         System.out.println(ModConfigs.Block1X);
         System.out.println("Values should be saved");
+    }
+
+    public static BlockPos getPlayerPosition()
+    {
+        MinecraftClient client = MinecraftClient.getInstance();
+        PlayerEntity player = client.player;
+        BlockPos playerPos = player.getBlockPos();
+        return playerPos;
     }
 }
