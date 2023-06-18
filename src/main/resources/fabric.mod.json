@@ -23,9 +23,6 @@
       "com.areaassistor.AreaAssistor"
     ]
   },
-  "mixins": [
-    "areaareaassistor.mixins.json"
-  ],
 
   "depends": {
     "fabricloader": "0.14.*",
