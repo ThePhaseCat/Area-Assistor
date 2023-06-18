@@ -5,29 +5,20 @@ import io.github.cottonmc.cotton.gui.widget.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
-import org.apache.http.impl.cookie.RFC2965SpecFactory;
 
 import java.util.Arrays;
-import java.util.function.Consumer;
 
-import static com.areaassistor.Util.biggestValue;
-import static com.areaassistor.Util.smallestValue;
 import static com.areaassistor.config.ModConfigs.blocks;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class AreaAssistorGui extends LightweightGuiDescription {
     public static int areaValue;
-
-
     public static int eLevel = 0;
 
 
@@ -39,13 +30,13 @@ public class AreaAssistorGui extends LightweightGuiDescription {
 
         //setValuesPanel Labels
         for (int i = 0; i < 3; i++) {
-            WButton blockCoords = new WButton(Text.literal("Change Block " + (i-1) + " Coords"));
-            WLabel blockLab = new WLabel(Text.literal("Block " + (i-1) + ": " + blockCoords(blocks[i])));
+            WButton blockCoords = new WButton(Text.literal("Change Block " + (i+1) + " Coords"));
+            WLabel blockLab = new WLabel(Text.literal("Block " + (i+1) + ": " + blockCoords(blocks[i])));
 
             int finalI = i;
             blockCoords.setOnClick(() -> {
                 blocks[finalI] = getLookedAtBlockPos().mutableCopy();
-                blockLab.setText(Text.literal("Block " + (finalI-1) + ": " + blockCoords(blocks[finalI])));
+                blockLab.setText(Text.literal("Block " + (finalI+1) + ": " + blockCoords(blocks[finalI])));
                 areaValue = getAreaValue();
                 MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
             });
@@ -77,16 +68,9 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         if(eLevel == 0){
             enchantmentText.setText(Text.translatable("Unbreaking Level: " + "No Unbreaking"));
         }
-        else if(eLevel == 1){
-            enchantmentText.setText(Text.translatable("Unbreaking Level: " + "Unbreaking 1"));
+        else {
+            enchantmentText.setText(Text.translatable("Unbreaking Level: " + eLevel));
         }
-        else if(eLevel == 2){
-            enchantmentText.setText(Text.translatable("Unbreaking Level: " + "Unbreaking 2"));
-        }
-        else if(eLevel == 3){
-            enchantmentText.setText(Text.translatable("Unbreaking Level: " + "Unbreaking 3"));
-        }
-
 
         WButton noUnbreaking = new WButton(Text.translatable("No Unbreaking"));
 
@@ -108,7 +92,7 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         //area calculation panel labels
         String toolName;
         String toolStuff;
-        var item = getHeldItem();
+        var item = getHeldTool();
         if(item == null)
         {
             toolName = "No Tool in Hand!";
@@ -117,7 +101,7 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         else
         {
             toolName = item.getName().getString();
-            toolStuff = "Durability: " + durabilityCalculation(item, eLevel);
+            toolStuff = "Durability: " + getDurability(getHeldTool()) * eLevel;
         }
 
         WLabel toolLabel = new WLabel(Text.translatable("Tool: " + toolName));
@@ -132,19 +116,7 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         {
             String toolAmount = String.valueOf(howManyAmount()) + " ";
             //check if the tool is a shovel or pickaxe
-            if(item == Items.WOODEN_SHOVEL ||
-                    item == Items.STONE_SHOVEL ||
-                    item == Items.IRON_SHOVEL ||
-                    item== Items.GOLDEN_SHOVEL ||
-                    item == Items.DIAMOND_SHOVEL ||
-                    item == Items.NETHERITE_SHOVEL ||
-                    item == Items.WOODEN_PICKAXE ||
-                    item == Items.STONE_PICKAXE ||
-                    item == Items.IRON_PICKAXE ||
-                    item == Items.GOLDEN_PICKAXE ||
-                    item == Items.DIAMOND_PICKAXE ||
-                    item == Items.NETHERITE_PICKAXE
-            )
+            if(isTool(item))
             {
                 areaInformation = "It will take " + toolAmount + toolName + "'s to clear " + areaValue + " blocks!";
             }
@@ -239,49 +211,37 @@ public class AreaAssistorGui extends LightweightGuiDescription {
     }
 
     //method to get the tool that a player is holding
-    public static Item getHeldItem()
+    public static Item getHeldTool()
     {
         Item heldItem =  MinecraftClient.getInstance().player.getMainHandStack().getItem();
-        //check if item is a pickaxe or shovel
-        if (heldItem == Items.WOODEN_PICKAXE || heldItem == Items.STONE_PICKAXE || heldItem == Items.IRON_PICKAXE || heldItem == Items.GOLDEN_PICKAXE || heldItem == Items.DIAMOND_PICKAXE || heldItem == Items.NETHERITE_PICKAXE || heldItem == Items.WOODEN_SHOVEL || heldItem == Items.STONE_SHOVEL || heldItem == Items.IRON_SHOVEL || heldItem == Items.GOLDEN_SHOVEL || heldItem == Items.DIAMOND_SHOVEL || heldItem == Items.NETHERITE_SHOVEL) {
-            return heldItem;
-        } else {
-            return null;
-        }
+        return isTool(heldItem) ? heldItem : null;
     }
 
-    public int durabilityCalculation(Item tool, int enchantLevel)
+    public static boolean isTool(Item item) {
+        return item instanceof PickaxeItem || item instanceof ShovelItem;
+    }
+
+    public int getDurability(Item tool)
     {
-        if(tool == null)
+        if(tool == null || !tool.isDamageable())
         {
             return 0;
         }
-        //change tool to item stack
-        int durability = new ItemStack(tool).getMaxDamage();
-
-        //check what item the tool is and then get the durability
-        return durability * enchantLevel;
+        return tool.getMaxDamage();
     }
 
     public double howManyAmount()
     {
         //calculate how many pickaxes or shovels are required to clear out an area
         int area = getAreaValue();
-        if(area == 0)
+        int durability = getDurability(getHeldTool()) * eLevel;
+        if(area == 0 || durability == 0)
         {
             return 0.0;
         }
-        else
-        {
-            double durability = durabilityCalculation(getHeldItem(), eLevel);
-            if(durability == 0)
-            {
-                return 0.0;
-            }
-            double howMany = area / durability;
-            //trim howMany to 2 decimal places
-            howMany = Math.round(howMany * 100.0) / 100.0;
-            return howMany;
-        }
+        double howMany = (double) area / durability;
+        //trim howMany to 2 decimal places
+        howMany = Math.round(howMany * 100.0) / 100.0;
+        return howMany;
     }
 }
