@@ -18,7 +18,7 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.Arrays;
 
-import static com.areaassistor.config.ModConfigs.blocks;
+import static com.areaassistor.AreaAssistor.blocks;
 
 public class AreaAssistorGui extends LightweightGuiDescription {
     public static int areaValue;
