@@ -184,6 +184,14 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         areaCalcPanel.add(toolInfoLabel, 1, 8, 1, 1);
         areaCalcPanel.add(areaCaluclationInfo, 1, 9, 1, 1);
 
+        //other panel
+        playerPos = getPlayerPosition();
+        System.out.println(playerPos);
+
+        System.out.println(inArea());
+
+        WGridPanel otherPanel = new WGridPanel();
+
 
         //tabs
         WTabPanel tabs = new WTabPanel();
@@ -224,21 +232,30 @@ public class AreaAssistorGui extends LightweightGuiDescription {
             return 0;
         }
 
-        //length
-        int block2x = block2.getX();
-        int block1x = block1.getX();
+        int b1x = block1.getX();
+        int b1y = block1.getY();
+        int b1z = block1.getZ();
 
-        //width
-        int block2z = block2.getZ();
-        int block1z = block1.getZ();
+        int b2x = block2.getX();
+        int b2y = block2.getY();
+        int b2z = block2.getZ();
 
-        //height
-        int block3y = block3.getY();
-        int block2y = block2.getY();
+        int b3x = block3.getX();
+        int b3y = block3.getY();
+        int b3z = block3.getZ();
 
-        int length = block2x - block1x;
-        int width = block2z - block1z;
-        int height = block3y - block2y;
+        int startX = smallestValue(b1x, b2x, b3x);
+        int finalX = biggestValue(b1x, b2x, b3x);
+
+        int startY = smallestValue(b1y, b2y, b3y);
+        int finalY = biggestValue(b1y, b2y, b3y);
+
+        int startZ = smallestValue(b1z, b2z, b3z);
+        int finalZ = biggestValue(b1z, b2z, b3z);
+
+        int length = finalX - startX;
+        int width = finalZ - startZ;
+        int height = finalY - startY;
 
         if(length < 0){
             length = length * -1;
@@ -430,5 +447,78 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         PlayerEntity player = client.player;
         BlockPos playerPos = player.getBlockPos();
         return playerPos;
+    }
+
+    public boolean inArea()
+    {
+        int playerX = playerPos.getX();
+        int playerY = playerPos.getY();
+        int playerZ = playerPos.getZ();
+
+        int b1x = block1.getX();
+        int b1y = block1.getY();
+        int b1z = block1.getZ();
+
+        int b2x = block2.getX();
+        int b2y = block2.getY();
+        int b2z = block2.getZ();
+
+        int b3x = block3.getX();
+        int b3y = block3.getY();
+        int b3z = block3.getZ();
+
+        int startX = smallestValue(b1x, b2x, b3x);
+        int finalX = biggestValue(b1x, b2x, b3x);
+
+        int startY = smallestValue(b1y, b2y, b3y);
+        int finalY = biggestValue(b1y, b2y, b3y);
+
+        int startZ = smallestValue(b1z, b2z, b3z);
+        int finalZ = biggestValue(b1z, b2z, b3z);
+
+        for(int i = startX; i <= finalX; i++)
+        {
+            for(int j = startY; j <= finalY; j++)
+            {
+                for(int k = startZ; k <= finalZ; k++)
+                {
+                    if(playerX == i && playerY == j && playerZ == k)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public int biggestValue(int b1, int b2, int b3)
+    {
+        if(b1 >= b2 && b1 >= b3)
+        {
+            return b1;
+        }
+        else if(b2 >= b1 && b2 >= b3)
+        {
+            return b2;
+        }
+        else{
+            return b3;
+        }
+    }
+
+    public int smallestValue(int b1, int b2, int b3)
+    {
+        if(b1 <= b2 && b1 <= b3)
+        {
+            return b1;
+        }
+        else if(b2 <= b1 && b2 <= b3)
+        {
+            return b2;
+        }
+        else{
+            return b3;
+        }
     }
 }
