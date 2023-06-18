@@ -45,7 +45,7 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         }
 
 
-        WButton resetValues = new WButton(Text.translatable("Reset Values"));
+        WButton resetValues = new WButton(Text.literal("Reset Values"));
 
 
         resetValues.setOnClick(() -> {
@@ -64,15 +64,15 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         WGridPanel areaCalcPanel = new WGridPanel();
         areaCalcPanel.setSize(300, 200);
 
-        WLabel enchantmentText = new WLabel(Text.translatable("Unbreaking Level: " + eLevel));
+        WLabel enchantmentText = new WLabel(Text.literal("Unbreaking Level: " + eLevel));
         if(eLevel == 0){
-            enchantmentText.setText(Text.translatable("Unbreaking Level: " + "No Unbreaking"));
+            enchantmentText.setText(Text.literal("Unbreaking Level: " + "No Unbreaking"));
         }
         else {
-            enchantmentText.setText(Text.translatable("Unbreaking Level: " + eLevel));
+            enchantmentText.setText(Text.literal("Unbreaking Level: " + eLevel));
         }
 
-        WButton noUnbreaking = new WButton(Text.translatable("No Unbreaking"));
+        WButton noUnbreaking = new WButton(Text.literal("No Unbreaking"));
 
         noUnbreaking.setOnClick(() -> {
             eLevel = 0;
@@ -104,8 +104,8 @@ public class AreaAssistorGui extends LightweightGuiDescription {
             toolStuff = "Durability: " + getDurability(getHeldTool()) * eLevel;
         }
 
-        WLabel toolLabel = new WLabel(Text.translatable("Tool: " + toolName));
-        WLabel toolInfoLabel = new WLabel(Text.translatable(toolStuff));
+        WLabel toolLabel = new WLabel(Text.literal("Tool: " + toolName));
+        WLabel toolInfoLabel = new WLabel(Text.literal(toolStuff));
 
         String areaInformation = null;
         if(howManyAmount() == 0.0 || item == null)
