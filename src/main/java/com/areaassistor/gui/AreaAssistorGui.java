@@ -14,6 +14,9 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 public class AreaAssistorGui extends LightweightGuiDescription {
 
     public static BlockPos block1 = assignValues(0);
@@ -39,9 +42,9 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         setValuesPanel.setSize(300, 200);
 
         //setValuesPanel Labels
-        WLabel block1lab = new WLabel(Text.translatable("Block 1: " + BlockCoords(block1)));
-        WLabel block2lab = new WLabel(Text.translatable("Block 2: " + BlockCoords(block2)));
-        WLabel block3lab = new WLabel(Text.translatable("Block 3: " + BlockCoords(block3)));
+        WLabel block1lab = new WLabel(Text.translatable("Block 1: " + blockCoords(block1)));
+        WLabel block2lab = new WLabel(Text.translatable("Block 2: " + blockCoords(block2)));
+        WLabel block3lab = new WLabel(Text.translatable("Block 3: " + blockCoords(block3)));
 
         //setValuesPanel buttons
         WButton block1coords = new WButton(Text.translatable("Change Block 1 Coords"));
@@ -52,21 +55,21 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         //setValuesPanel button logic
         block1coords.setOnClick(() -> {
             block1 = getBlockPos();
-            block1lab.setText(Text.translatable("Block 1: " + BlockCoords(block1)));
+            block1lab.setText(Text.translatable("Block 1: " + blockCoords(block1)));
             areaValue = getAreaValue();
             block1info = getBlockInfo();
             MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
         block2coords.setOnClick(() -> {
             block2 = getBlockPos();
-            block2lab.setText(Text.translatable("Block 2: " + BlockCoords(block2)));
+            block2lab.setText(Text.translatable("Block 2: " + blockCoords(block2)));
             areaValue = getAreaValue();
             block2info = getBlockInfo();
             MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
         block3coords.setOnClick(() -> {
             block3 = getBlockPos();
-            block3lab.setText(Text.translatable("Block 3: " + BlockCoords(block3)));
+            block3lab.setText(Text.translatable("Block 3: " + blockCoords(block3)));
             areaValue = getAreaValue();
             block3info = getBlockInfo();
             MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
@@ -112,26 +115,21 @@ public class AreaAssistorGui extends LightweightGuiDescription {
 
 
         WButton noUnbreaking = new WButton(Text.translatable("No Unbreaking"));
-        WButton unbreaking1 = new WButton(Text.translatable("Unbreaking 1"));
-        WButton unbreaking2 = new WButton(Text.translatable("Unbreaking 2"));
-        WButton unbreaking3 = new WButton(Text.translatable("Unbreaking 3"));
 
         noUnbreaking.setOnClick(() -> {
             eLevel = 0;
             MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
-        unbreaking1.setOnClick(() -> {
-            eLevel = 1;
-            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
-        });
-        unbreaking2.setOnClick(() -> {
-            eLevel = 2;
-            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
-        });
-        unbreaking3.setOnClick(() -> {
-            eLevel = 3;
-            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
-        });
+
+        for (int i = 1; i <= 3; i++) {
+            WButton unbreaking = new WButton(Text.literal("Unbreaking " + i));
+            int finalI = i;
+            unbreaking.setOnClick(() -> {
+                eLevel = finalI;
+                MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
+            });
+            areaCalcPanel.add(unbreaking, 4, 3 + i, 6, 1);
+        }
 
         //area calculation panel labels
         String toolName;
@@ -164,15 +162,12 @@ public class AreaAssistorGui extends LightweightGuiDescription {
                 areaInformation = "It will take " + toolAmount + toolName + "'s to clear " + areaValue + " blocks!";
             }
         }
-        WLabel areaCaluclationInfo = new WLabel(Text.translatable(areaInformation));
+        WLabel areaCaluclationInfo = new WLabel(Text.literal(areaInformation));
 
         //area calculation panel add
         areaCalcPanel.add(toolLabel, 1, 1, 1, 1);
         areaCalcPanel.add(enchantmentText, 1, 2, 1, 1);
         areaCalcPanel.add(noUnbreaking, 4, 3, 6, 1);
-        areaCalcPanel.add(unbreaking1, 4, 4, 6, 1);
-        areaCalcPanel.add(unbreaking2, 4, 5, 6, 1);
-        areaCalcPanel.add(unbreaking3, 4, 6, 6, 1);
         areaCalcPanel.add(toolInfoLabel, 1, 8, 1, 1);
         areaCalcPanel.add(areaCaluclationInfo, 1, 9, 1, 1);
 
@@ -180,81 +175,32 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         WGridPanel areaPanel = new WGridPanel();
         areaPanel.setSize(300, 200);
 
-        playerPos = getPlayerPosition();
 
         //area panel labels
-        WLabel areaLabel = null;
-        if(areaValue == 0)
-        {
-            areaLabel = new WLabel(Text.translatable("Area: " + "No Area Defined"));
-        }
-        else
-        {
-            areaLabel = new WLabel(Text.translatable("Area: " + areaValue));
+        WLabel areaLabel = new WLabel(Text.literal("Area: " + (areaValue != 0 ? areaValue : "No Area Defined")));
+        areaPanel.add(areaLabel, 1, 6, 1, 1);
 
-        }
+        WLabel inAreaLabel = new WLabel(Text.literal("In Area Selected: " + inArea()));
+        areaPanel.add(inAreaLabel, 1, 5, 1, 1);
 
-        WLabel inAreaLabel = null;
-        if(inArea())
-        {
-            inAreaLabel = new WLabel(Text.translatable("In Area Selected: True"));
-        }
-        else
-        {
-            inAreaLabel = new WLabel(Text.translatable("In Area Selected: False"));
+        Block[] blocks = new Block[] {block1info, block2info, block3info};
+        for(int b = 1; b <= blocks.length; b++) {
+            Block block = blocks[b-1];
+            String text;
+            if (block == null) {
+                text = "No Block Selected";
+            } else {
+                text = block.getTranslationKey().substring(16);
+            }
+            WLabel label = new WLabel(Text.literal(text));
+            areaPanel.add(label, 1, b, 1, 1);
         }
 
-        String block1name = null;
-        String block2name = null;
-        String block3name = null;
-        if(block1info == null)
-        {
-            block1name = "No Block Selected";
-        }
-        else
-        {
-            block1name = block1info.getTranslationKey().toString();
-            block1name = block1name.substring(16);
-        }
-
-        if(block2info == null)
-        {
-            block2name = "No Block Selected";
-        }
-        else
-        {
-            block2name = block2info.getTranslationKey().toString();
-            block2name = block2name.substring(16);
-        }
-
-        if(block3info == null)
-        {
-            block3name = "No Block Selected";
-        }
-        else
-        {
-            block3name = block3info.getTranslationKey().toString();
-            block3name = block3name.substring(16);
-        }
-
-        WLabel b1name = new WLabel(Text.translatable("Block 1: " + block1name));
-        WLabel b2name = new WLabel(Text.translatable("Block 2: " + block2name));
-        WLabel b3name = new WLabel(Text.translatable("Block 3: " + block3name));
-
-        WButton refreshButton = new WButton(Text.translatable("Refresh Screen"));
+        WButton refreshButton = new WButton(Text.literal("Refresh Screen"));
         refreshButton.setOnClick(() -> {
             MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
-
-        areaPanel.add(b1name, 1, 1, 1, 1);
-        areaPanel.add(b2name, 1, 2, 1, 1);
-        areaPanel.add(b3name, 1, 3, 1, 1);
-        areaPanel.add(inAreaLabel, 1, 5, 1, 1);
-        areaPanel.add(areaLabel, 1, 6, 1, 1);
         areaPanel.add(refreshButton, 1, 8, 3, 1);
-
-
-
 
         //tabs
         WTabPanel tabs = new WTabPanel();
@@ -264,8 +210,6 @@ public class AreaAssistorGui extends LightweightGuiDescription {
 
         setRootPanel(tabs);
         tabs.setSelectedIndex(0);
-
-
     }
 
     public BlockPos getBlockPos()
@@ -293,11 +237,10 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         HitResult hit = client.crosshairTarget;
 
         BlockHitResult blockHit = (BlockHitResult) hit;
-        Block blockInfo = client.world.getBlockState(blockHit.getBlockPos()).getBlock();
 
         if(hit.getType() == HitResult.Type.BLOCK)
         {
-            return blockInfo;
+            return client.world.getBlockState(blockHit.getBlockPos()).getBlock();
         }
         else
         {
@@ -364,26 +307,19 @@ public class AreaAssistorGui extends LightweightGuiDescription {
     }
 
 
-    public String BlockCoords(BlockPos blockGiven)
+    public String blockCoords(BlockPos blockGiven)
     {
         if (blockGiven == null)
         {
             return "No Block Selected!";
         }
-        int blockX = blockGiven.getX();
-        int blockY = blockGiven.getY();
-        int blockZ = blockGiven.getZ();
-
-        String blockCoords = blockX + ", " + blockY + ", " + blockZ;
-        return blockCoords;
+        return "%d, %d, %d".formatted(blockGiven.getX(), blockGiven.getY(), blockGiven.getZ());
     }
 
     //method to get the tool that a player is holding
     public static Item getHeldItem()
     {
-        MinecraftClient client = MinecraftClient.getInstance();
-        PlayerEntity player = client.player;
-        Item heldItem = player.getMainHandStack().getItem();
+        Item heldItem =  MinecraftClient.getInstance().player.getMainHandStack().getItem();
         //check if item is a pickaxe or shovel
         if (heldItem == Items.WOODEN_PICKAXE || heldItem == Items.STONE_PICKAXE || heldItem == Items.IRON_PICKAXE || heldItem == Items.GOLDEN_PICKAXE || heldItem == Items.DIAMOND_PICKAXE || heldItem == Items.NETHERITE_PICKAXE || heldItem == Items.WOODEN_SHOVEL || heldItem == Items.STONE_SHOVEL || heldItem == Items.IRON_SHOVEL || heldItem == Items.GOLDEN_SHOVEL || heldItem == Items.DIAMOND_SHOVEL || heldItem == Items.NETHERITE_SHOVEL) {
             return heldItem;
@@ -399,57 +335,10 @@ public class AreaAssistorGui extends LightweightGuiDescription {
             return 0;
         }
         //change tool to item stack
-        ItemStack toolStack = new ItemStack(tool);
-        int durability = tool.getMaxDamage();
+        int durability = new ItemStack(tool).getMaxDamage();
 
         //check what item the tool is and then get the durability
-        if(tool == Items.WOODEN_PICKAXE || tool == Items.WOODEN_SHOVEL)
-        {
-            durability = 60;
-        }
-        if(tool == Items.STONE_PICKAXE || tool == Items.STONE_SHOVEL)
-        {
-            durability = 132;
-        }
-        if(tool == Items.IRON_PICKAXE || tool == Items.IRON_SHOVEL)
-        {
-            durability = 251;
-        }
-        if(tool == Items.GOLDEN_PICKAXE || tool == Items.GOLDEN_SHOVEL)
-        {
-            durability = 33;
-        }
-        if(tool == Items.DIAMOND_PICKAXE || tool == Items.DIAMOND_SHOVEL)
-        {
-            durability = 1562;
-        }
-        if(tool == Items.NETHERITE_PICKAXE || tool == Items.NETHERITE_SHOVEL)
-        {
-            durability = 2032;
-        }
-
-
-        //get enchant of unbreaking
-        int unbreaking = enchantLevel;
-
-        //calculate durability
-        if (unbreaking == 1)
-        {
-            durability = durability * 2;
-        }
-        else if (unbreaking == 2)
-        {
-            durability = durability * 3;
-        }
-        else if (unbreaking == 3)
-        {
-            durability = durability * 4;
-        }
-        else
-        {
-            durability = durability;
-        }
-        return durability;
+        return durability * enchantLevel;
     }
 
     public double howManyAmount()
@@ -506,21 +395,6 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         BlockPos blockPos = new BlockPos(x, y, z);
         return blockPos;
     }
-    public static void changeConfigValues()
-    {
-        ModConfigs.Block1X = block1.getX();
-        ModConfigs.Block1Y = block1.getY();
-        ModConfigs.Block1Z = block1.getZ();
-        ModConfigs.Block2X = block2.getX();
-        ModConfigs.Block2Y = block2.getY();
-        ModConfigs.Block2Z = block2.getZ();
-        ModConfigs.Block3X = block3.getX();
-        ModConfigs.Block3Y = block3.getY();
-        ModConfigs.Block3Z = block3.getZ();
-
-        System.out.println(ModConfigs.Block1X);
-        System.out.println("Values should be saved");
-    }
 
     public static BlockPos getPlayerPosition()
     {
@@ -575,31 +449,11 @@ public class AreaAssistorGui extends LightweightGuiDescription {
 
     public int biggestValue(int b1, int b2, int b3)
     {
-        if(b1 >= b2 && b1 >= b3)
-        {
-            return b1;
-        }
-        else if(b2 >= b1 && b2 >= b3)
-        {
-            return b2;
-        }
-        else{
-            return b3;
-        }
+        return max(max(b1, b2), b3);
     }
 
     public int smallestValue(int b1, int b2, int b3)
     {
-        if(b1 <= b2 && b1 <= b3)
-        {
-            return b1;
-        }
-        else if(b2 <= b1 && b2 <= b3)
-        {
-            return b2;
-        }
-        else{
-            return b3;
-        }
+        return min(min(b1, b2), b3);
     }
 }

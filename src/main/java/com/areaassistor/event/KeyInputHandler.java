@@ -11,9 +11,6 @@ import org.lwjgl.glfw.GLFW;
 
 public class KeyInputHandler {
 
-    public static final String CATEGORY = "key.category.minecalc.minecalc_category";
-    public static final String KEYBIND = "key.minecalc.open_minecalc";
-
     public static KeyBinding open_minecalc_key;
 
     public static void registerKeyInputs()
@@ -28,14 +25,12 @@ public class KeyInputHandler {
 
     public static void register()
     {
-        open_minecalc_key = KeyBindingHelper.registerKeyBinding(
-                new KeyBinding(
-                        KEYBIND,
+        open_minecalc_key = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "areaassistor.keybinds.open",
                         InputUtil.Type.KEYSYM,
                         GLFW.GLFW_KEY_0,
-                        CATEGORY
-                )
-        );
+                "areaassistor.keybinds.category"
+        ));
 
         registerKeyInputs();
     }
