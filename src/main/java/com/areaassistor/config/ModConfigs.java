@@ -8,7 +8,12 @@ public class ModConfigs {
     public static SimpleConfig CONFIG;
     private static ModConfigProvider configs;
 
-    public static BlockPos.Mutable[] blocks = new BlockPos.Mutable[3];
+    public static BlockPos.Mutable[] blocks = new BlockPos.Mutable[] {
+            // there's gotta be a better way!
+            BlockPos.ORIGIN.mutableCopy(),
+            BlockPos.ORIGIN.mutableCopy(),
+            BlockPos.ORIGIN.mutableCopy()
+    };
 
     public static void registerConfigs() {
         configs = new ModConfigProvider();
@@ -20,10 +25,6 @@ public class ModConfigs {
 
         CONFIG = SimpleConfig.of(AreaAssistor.MOD_ID + "config").provider(configs).request();
 
-        assignConfigs();
-    }
-
-    private static void assignConfigs() {
         for (int i = 1; i <=3; i++) {
             // this could be deduplicated but it's... worse lol
             blocks[i-1].setX(CONFIG.getOrDefault("Block" + i + "X", 0));

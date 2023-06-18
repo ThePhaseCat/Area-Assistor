@@ -44,7 +44,7 @@ public class AreaAssistorGui extends LightweightGuiDescription {
 
             int finalI = i;
             blockCoords.setOnClick(() -> {
-                blocks[finalI -1] = getLookedAtBlockPos().mutableCopy();
+                blocks[finalI] = getLookedAtBlockPos().mutableCopy();
                 blockLab.setText(Text.literal("Block " + (finalI-1) + ": " + blockCoords(blocks[finalI])));
                 areaValue = getAreaValue();
                 MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
@@ -202,18 +202,12 @@ public class AreaAssistorGui extends LightweightGuiDescription {
     {
         //get the block that the player is looking at
         MinecraftClient client = MinecraftClient.getInstance();
-        HitResult hit = client.crosshairTarget;
 
-        BlockHitResult blockHit = (BlockHitResult) hit;
-        BlockPos blockPos = blockHit.getBlockPos();
-
-        if(hit.getType() == HitResult.Type.BLOCK)
-        {
-            return blockPos;
-        }
-        else
-        {
-            return null;
+        BlockHitResult blockHit = (BlockHitResult) client.crosshairTarget;
+        if (blockHit == null || blockHit.getType() != HitResult.Type.BLOCK) {
+            return client.player.getBlockPos();
+        } else {
+            return blockHit.getBlockPos();
         }
     }
 
@@ -289,13 +283,5 @@ public class AreaAssistorGui extends LightweightGuiDescription {
             howMany = Math.round(howMany * 100.0) / 100.0;
             return howMany;
         }
-    }
-
-    public static BlockPos getPlayerPosition()
-    {
-        MinecraftClient client = MinecraftClient.getInstance();
-        PlayerEntity player = client.player;
-        BlockPos playerPos = player.getBlockPos();
-        return playerPos;
     }
 }
