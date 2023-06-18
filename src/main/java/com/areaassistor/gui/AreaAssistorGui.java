@@ -1,11 +1,16 @@
 package com.areaassistor.gui;
 
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
-import io.github.cottonmc.cotton.gui.widget.*;
+import io.github.cottonmc.cotton.gui.widget.WButton;
+import io.github.cottonmc.cotton.gui.widget.WGridPanel;
+import io.github.cottonmc.cotton.gui.widget.WLabel;
+import io.github.cottonmc.cotton.gui.widget.WTabPanel;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.PickaxeItem;
+import net.minecraft.item.ShovelItem;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -14,8 +19,6 @@ import net.minecraft.util.math.BlockPos;
 import java.util.Arrays;
 
 import static com.areaassistor.config.ModConfigs.blocks;
-import static java.lang.Math.max;
-import static java.lang.Math.min;
 
 public class AreaAssistorGui extends LightweightGuiDescription {
     public static int areaValue;
@@ -30,13 +33,13 @@ public class AreaAssistorGui extends LightweightGuiDescription {
 
         //setValuesPanel Labels
         for (int i = 0; i < 3; i++) {
-            WButton blockCoords = new WButton(Text.literal("Change Block " + (i+1) + " Coords"));
-            WLabel blockLab = new WLabel(Text.literal("Block " + (i+1) + ": " + blockCoords(blocks[i])));
+            WButton blockCoords = new WButton(Text.literal("Change Block " + (i + 1) + " Coords"));
+            WLabel blockLab = new WLabel(Text.literal("Block " + (i + 1) + ": " + blockCoords(blocks[i])));
 
             int finalI = i;
             blockCoords.setOnClick(() -> {
                 blocks[finalI] = getLookedAtBlockPos().mutableCopy();
-                blockLab.setText(Text.literal("Block " + (finalI+1) + ": " + blockCoords(blocks[finalI])));
+                blockLab.setText(Text.literal("Block " + (finalI + 1) + ": " + blockCoords(blocks[finalI])));
                 areaValue = getAreaValue();
                 MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
             });
@@ -65,10 +68,9 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         areaCalcPanel.setSize(300, 200);
 
         WLabel enchantmentText = new WLabel(Text.literal("Unbreaking Level: " + eLevel));
-        if(eLevel == 0){
+        if (eLevel == 0) {
             enchantmentText.setText(Text.literal("Unbreaking Level: " + "No Unbreaking"));
-        }
-        else {
+        } else {
             enchantmentText.setText(Text.literal("Unbreaking Level: " + eLevel));
         }
 
@@ -93,13 +95,10 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         String toolName;
         String toolStuff;
         var item = getHeldTool();
-        if(item == null)
-        {
+        if (item == null) {
             toolName = "No Tool in Hand!";
             toolStuff = "Equip a tool before using this service!";
-        }
-        else
-        {
+        } else {
             toolName = item.getName().getString();
             toolStuff = "Durability: " + getDurability(getHeldTool()) * eLevel;
         }
@@ -108,16 +107,12 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         WLabel toolInfoLabel = new WLabel(Text.literal(toolStuff));
 
         String areaInformation = null;
-        if(howManyAmount() == 0.0 || item == null)
-        {
+        if (howManyAmount() == 0.0 || item == null) {
             areaInformation = "No area defined or no tool in hand!";
-        }
-        else
-        {
-            String toolAmount = String.valueOf(howManyAmount()) + " ";
+        } else {
+            String toolAmount = howManyAmount() + " ";
             //check if the tool is a shovel or pickaxe
-            if(isTool(item))
-            {
+            if (isTool(item)) {
                 areaInformation = "It will take " + toolAmount + toolName + "'s to clear " + areaValue + " blocks!";
             }
         }
@@ -141,8 +136,8 @@ public class AreaAssistorGui extends LightweightGuiDescription {
 
         //Block[] blocks = new Block[] {block1info, block2info, block3info};
         ClientWorld world = MinecraftClient.getInstance().world;
-        for(int b = 1; b <= blocks.length; b++) {
-            BlockPos pos = blocks[b-1];
+        for (int b = 1; b <= blocks.length; b++) {
+            BlockPos pos = blocks[b - 1];
             Block block = world.getBlockState(pos).getBlock();
             String text;
             if (block == null) {
@@ -170,8 +165,17 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         tabs.setSelectedIndex(0);
     }
 
-    public BlockPos getLookedAtBlockPos()
-    {
+    //method to get the tool that a player is holding
+    public static Item getHeldTool() {
+        Item heldItem = MinecraftClient.getInstance().player.getMainHandStack().getItem();
+        return isTool(heldItem) ? heldItem : null;
+    }
+
+    public static boolean isTool(Item item) {
+        return item instanceof PickaxeItem || item instanceof ShovelItem;
+    }
+
+    public BlockPos getLookedAtBlockPos() {
         //get the block that the player is looking at
         MinecraftClient client = MinecraftClient.getInstance();
 
@@ -183,12 +187,10 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         }
     }
 
-
-    public int getAreaValue()
-    {
-        int[] x = new int[] {blocks[0].getX(), blocks[1].getX(), blocks[2].getX()};
-        int[] y = new int[] {blocks[0].getY(), blocks[1].getY(), blocks[2].getY()};
-        int[] z = new int[] {blocks[0].getZ(), blocks[1].getZ(), blocks[2].getZ()};
+    public int getAreaValue() {
+        int[] x = new int[]{blocks[0].getX(), blocks[1].getX(), blocks[2].getX()};
+        int[] y = new int[]{blocks[0].getY(), blocks[1].getY(), blocks[2].getY()};
+        int[] z = new int[]{blocks[0].getZ(), blocks[1].getZ(), blocks[2].getZ()};
 
         // streams: it's like kotlin but cringer
         // val minCoord = BlockPos(x.min(), y.min(), z.min()) would work iirc
@@ -200,43 +202,25 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         return f.getX() * f.getY() * f.getZ();
     }
 
-
-    public String blockCoords(BlockPos blockGiven)
-    {
-        if (blockGiven == null)
-        {
+    public String blockCoords(BlockPos blockGiven) {
+        if (blockGiven == null) {
             return "No Block Selected!";
         }
         return "%d, %d, %d".formatted(blockGiven.getX(), blockGiven.getY(), blockGiven.getZ());
     }
 
-    //method to get the tool that a player is holding
-    public static Item getHeldTool()
-    {
-        Item heldItem =  MinecraftClient.getInstance().player.getMainHandStack().getItem();
-        return isTool(heldItem) ? heldItem : null;
-    }
-
-    public static boolean isTool(Item item) {
-        return item instanceof PickaxeItem || item instanceof ShovelItem;
-    }
-
-    public int getDurability(Item tool)
-    {
-        if(tool == null || !tool.isDamageable())
-        {
+    public int getDurability(Item tool) {
+        if (tool == null || !tool.isDamageable()) {
             return 0;
         }
         return tool.getMaxDamage();
     }
 
-    public double howManyAmount()
-    {
+    public double howManyAmount() {
         //calculate how many pickaxes or shovels are required to clear out an area
         int area = getAreaValue();
         int durability = getDurability(getHeldTool()) * eLevel;
-        if(area == 0 || durability == 0)
-        {
+        if (area == 0 || durability == 0) {
             return 0.0;
         }
         double howMany = (double) area / durability;
