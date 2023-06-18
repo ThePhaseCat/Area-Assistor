@@ -3,6 +3,7 @@ package com.areaassistor.gui;
 import com.areaassistor.config.ModConfigs;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
+import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -18,6 +19,10 @@ public class AreaAssistorGui extends LightweightGuiDescription {
     public static BlockPos block1 = assignValues(0);
     public static BlockPos block2 = assignValues(1);
     public static BlockPos block3 = assignValues(2);
+
+    public static Block block1info;
+    public static Block block2info;
+    public static Block block3info;
     public static int areaValue;
 
     public static Item toolInfo = getHeldItem();
@@ -49,18 +54,21 @@ public class AreaAssistorGui extends LightweightGuiDescription {
             block1 = getBlockPos();
             block1lab.setText(Text.translatable("Block 1: " + BlockCoords(block1)));
             areaValue = getAreaValue();
+            block1info = getBlockInfo();
             MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
         block2coords.setOnClick(() -> {
             block2 = getBlockPos();
             block2lab.setText(Text.translatable("Block 2: " + BlockCoords(block2)));
             areaValue = getAreaValue();
+            block2info = getBlockInfo();
             MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
         block3coords.setOnClick(() -> {
             block3 = getBlockPos();
             block3lab.setText(Text.translatable("Block 3: " + BlockCoords(block3)));
             areaValue = getAreaValue();
+            block3info = getBlockInfo();
             MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
         resetValues.setOnClick(() -> {
@@ -68,6 +76,9 @@ public class AreaAssistorGui extends LightweightGuiDescription {
             block2 = BlockPos.ORIGIN;
             block3 = BlockPos.ORIGIN;
             areaValue = 0;
+            block1info = null;
+            block2info = null;
+            block3info = null;
             MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
 
@@ -80,25 +91,6 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         setValuesPanel.add(block1coords, 8, 1, 8, 1);
         setValuesPanel.add(block2coords, 8, 3, 8, 1);
         setValuesPanel.add(block3coords, 8, 5, 8, 1);
-
-        //area panel
-        WGridPanel areaPanel = new WGridPanel();
-        //setRootPanel(areaPanel);
-        areaPanel.setSize(300, 200);
-
-        //area panel labels
-        if(areaValue == 0)
-        {
-            WLabel areaLabel = new WLabel(Text.translatable("Area: " + "No Area Defined"));
-            areaPanel.add(areaLabel, 1, 1, 1, 1);
-        }
-        else
-        {
-            WLabel areaLabel = new WLabel(Text.translatable("Area: " + areaValue));
-            areaPanel.add(areaLabel, 1, 1, 1, 1);
-        }
-
-
 
         //area calculation panel
         WGridPanel areaCalcPanel = new WGridPanel();
@@ -184,20 +176,91 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         areaCalcPanel.add(toolInfoLabel, 1, 8, 1, 1);
         areaCalcPanel.add(areaCaluclationInfo, 1, 9, 1, 1);
 
-        //other panel
+        //area panel
+        WGridPanel areaPanel = new WGridPanel();
+        areaPanel.setSize(300, 200);
+
         playerPos = getPlayerPosition();
-        System.out.println(playerPos);
 
-        System.out.println(inArea());
+        //area panel labels
+        WLabel areaLabel = null;
+        if(areaValue == 0)
+        {
+            areaLabel = new WLabel(Text.translatable("Area: " + "No Area Defined"));
+        }
+        else
+        {
+            areaLabel = new WLabel(Text.translatable("Area: " + areaValue));
 
-        WGridPanel otherPanel = new WGridPanel();
+        }
+
+        WLabel inAreaLabel = null;
+        if(inArea())
+        {
+            inAreaLabel = new WLabel(Text.translatable("In Area Selected: True"));
+        }
+        else
+        {
+            inAreaLabel = new WLabel(Text.translatable("In Area Selected: False"));
+        }
+
+        String block1name = null;
+        String block2name = null;
+        String block3name = null;
+        if(block1info == null)
+        {
+            block1name = "No Block Selected";
+        }
+        else
+        {
+            block1name = block1info.getTranslationKey().toString();
+            block1name = block1name.substring(16);
+        }
+
+        if(block2info == null)
+        {
+            block2name = "No Block Selected";
+        }
+        else
+        {
+            block2name = block2info.getTranslationKey().toString();
+            block2name = block2name.substring(16);
+        }
+
+        if(block3info == null)
+        {
+            block3name = "No Block Selected";
+        }
+        else
+        {
+            block3name = block3info.getTranslationKey().toString();
+            block3name = block3name.substring(16);
+        }
+
+        WLabel b1name = new WLabel(Text.translatable("Block 1: " + block1name));
+        WLabel b2name = new WLabel(Text.translatable("Block 2: " + block2name));
+        WLabel b3name = new WLabel(Text.translatable("Block 3: " + block3name));
+
+        WButton refreshButton = new WButton(Text.translatable("Refresh Screen"));
+        refreshButton.setOnClick(() -> {
+            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
+        });
+
+        areaPanel.add(b1name, 1, 1, 1, 1);
+        areaPanel.add(b2name, 1, 2, 1, 1);
+        areaPanel.add(b3name, 1, 3, 1, 1);
+        areaPanel.add(inAreaLabel, 1, 5, 1, 1);
+        areaPanel.add(areaLabel, 1, 6, 1, 1);
+        areaPanel.add(refreshButton, 1, 8, 3, 1);
+
+
 
 
         //tabs
         WTabPanel tabs = new WTabPanel();
         tabs.add(setValuesPanel, tab -> tab.title(Text.literal("Set Values")));
-        tabs.add(areaPanel, tab -> tab.title(Text.literal("Area Value")));
         tabs.add(areaCalcPanel, tab -> tab.title(Text.literal("Area Calculation")));
+        tabs.add(areaPanel, tab -> tab.title(Text.literal("Area Information")));
 
         setRootPanel(tabs);
         tabs.setSelectedIndex(0);
@@ -217,6 +280,24 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         if(hit.getType() == HitResult.Type.BLOCK)
         {
             return blockPos;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public Block getBlockInfo()
+    {
+        MinecraftClient client = MinecraftClient.getInstance();
+        HitResult hit = client.crosshairTarget;
+
+        BlockHitResult blockHit = (BlockHitResult) hit;
+        Block blockInfo = client.world.getBlockState(blockHit.getBlockPos()).getBlock();
+
+        if(hit.getType() == HitResult.Type.BLOCK)
+        {
+            return blockInfo;
         }
         else
         {
