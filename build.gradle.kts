@@ -19,12 +19,11 @@ dependencies {
 	minecraft("com.mojang:minecraft:${property("minecraft_version")}")
 	mappings("net.fabricmc:yarn:${property("yarn_mappings")}:v2")
 
-	modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
-	modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
+	modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}+${property("minecraft_version")}")
+	modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}+${property("minecraft_version")}")
 
-	modImplementation("io.github.cottonmc:LibGui:8.0.0+1.20")
-	include("io.github.cottonmc:LibGui:8.0.0+1.20")
-
+	modImplementation("io.github.cottonmc:LibGui:${property("libgui_version")}+${property("minecraft_version")}")
+	include("io.github.cottonmc:LibGui:${property("libgui_version")}+${property("minecraft_version")}")
 }
 
 tasks {
