@@ -1,6 +1,5 @@
 package com.areaassistor.gui;
 
-import com.areaassistor.config.ModConfigs;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
 import net.minecraft.block.Block;
@@ -16,9 +15,9 @@ import net.minecraft.util.math.BlockPos;
 
 public class AreaAssistorGui extends LightweightGuiDescription {
 
-    public static BlockPos block1 = assignValues(0);
-    public static BlockPos block2 = assignValues(1);
-    public static BlockPos block3 = assignValues(2);
+    public static BlockPos block1 = BlockPos.ORIGIN;
+    public static BlockPos block2 = BlockPos.ORIGIN;
+    public static BlockPos block3 = BlockPos.ORIGIN;
 
     public static Block block1info;
     public static Block block2info;
@@ -251,7 +250,7 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         areaPanel.add(b3name, 1, 3, 1, 1);
         areaPanel.add(inAreaLabel, 1, 5, 1, 1);
         areaPanel.add(areaLabel, 1, 6, 1, 1);
-        areaPanel.add(refreshButton, 1, 8, 3, 1);
+        areaPanel.add(refreshButton, 1, 8, 4, 1);
 
 
 
@@ -472,54 +471,6 @@ public class AreaAssistorGui extends LightweightGuiDescription {
             howMany = Math.round(howMany * 100.0) / 100.0;
             return howMany;
         }
-    }
-
-    public static BlockPos assignValues(int blockNum)
-    {
-        int x;
-        int y;
-        int z;
-        if(blockNum == 0)
-        {
-            x = ModConfigs.Block1X;
-            y = ModConfigs.Block1Y;
-            z = ModConfigs.Block1Z;
-        }
-        if(blockNum == 1)
-        {
-            x = ModConfigs.Block2X;
-            y = ModConfigs.Block2Y;
-            z = ModConfigs.Block2Z;
-        }
-        if(blockNum == 2)
-        {
-            x = ModConfigs.Block3X;
-            y = ModConfigs.Block3Y;
-            z = ModConfigs.Block3Z;
-        }
-        else
-        {
-            x = 0;
-            y = 0;
-            z = 0;
-        }
-        BlockPos blockPos = new BlockPos(x, y, z);
-        return blockPos;
-    }
-    public static void changeConfigValues()
-    {
-        ModConfigs.Block1X = block1.getX();
-        ModConfigs.Block1Y = block1.getY();
-        ModConfigs.Block1Z = block1.getZ();
-        ModConfigs.Block2X = block2.getX();
-        ModConfigs.Block2Y = block2.getY();
-        ModConfigs.Block2Z = block2.getZ();
-        ModConfigs.Block3X = block3.getX();
-        ModConfigs.Block3Y = block3.getY();
-        ModConfigs.Block3Z = block3.getZ();
-
-        System.out.println(ModConfigs.Block1X);
-        System.out.println("Values should be saved");
     }
 
     public static BlockPos getPlayerPosition()

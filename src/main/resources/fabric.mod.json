@@ -15,7 +15,7 @@
   },
 
   "license": "MIT",
-  "icon": "assets/minecalc/icon.png",
+  "icon": "assets/areaassistor/icon.png",
 
   "environment": "client",
   "entrypoints": {

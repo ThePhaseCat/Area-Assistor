@@ -1,6 +1,5 @@
 package com.areaassistor;
 
-import com.areaassistor.config.ModConfigs;
 import com.areaassistor.event.KeyInputHandler;
 import net.fabricmc.api.ClientModInitializer;
 import org.slf4j.Logger;
@@ -14,7 +13,6 @@ public class AreaAssistor implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         LOGGER.info("AreaAssistor loaded!");
-        ModConfigs.registerConfigs();
         KeyInputHandler.register();
     }
 }
