@@ -11,8 +11,8 @@ import org.lwjgl.glfw.GLFW;
 
 public class KeyInputHandler {
 
-    public static final String CATEGORY = "key.category.minecalc.minecalc_category";
-    public static final String KEYBIND = "key.minecalc.open_minecalc";
+    public static final String CATEGORY = "areassistor.keybind.category";
+    public static final String KEYBIND = "areaassistor.keybind.open";
 
     public static KeyBinding open_minecalc_key;
 
