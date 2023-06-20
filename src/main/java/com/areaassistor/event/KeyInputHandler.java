@@ -14,12 +14,12 @@ public class KeyInputHandler {
     public static final String CATEGORY = "areassistor.keybind.category";
     public static final String KEYBIND = "areaassistor.keybind.open";
 
-    public static KeyBinding open_minecalc_key;
+    public static KeyBinding open_areaassistor_key;
 
     public static void registerKeyInputs()
     {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (open_minecalc_key.wasPressed())
+            if (open_areaassistor_key.wasPressed())
             {
                 MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
             }
@@ -28,7 +28,7 @@ public class KeyInputHandler {
 
     public static void register()
     {
-        open_minecalc_key = KeyBindingHelper.registerKeyBinding(
+        open_areaassistor_key = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
                         KEYBIND,
                         InputUtil.Type.KEYSYM,
