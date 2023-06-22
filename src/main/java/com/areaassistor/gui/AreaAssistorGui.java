@@ -250,6 +250,8 @@ public class AreaAssistorGui extends LightweightGuiDescription {
 
         WLabel allBlocks = new WLabel(Text.literal(compileAllBlocks(getBlockList())));
 
+        //WPanel testPanel = new WGridPanel();
+        WScrollPanel testScrollPanel = new WScrollPanel(allBlocks);
 
         areaPanel.add(b1name, 1, 1, 1, 1);
         areaPanel.add(b2name, 1, 2, 1, 1);
@@ -260,6 +262,14 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         areaPanel.add(refreshButton, 1, 8, 5, 1);
 
 
+        //test tab
+        WGridPanel testingPanel = new WGridPanel();
+        ArrayList<Block> blockList = getBlockList();
+        WLabel testLabel = new WLabel(Text.literal(compileAllBlocks(blockList)));
+
+
+
+
 
 
         //tabs
@@ -267,6 +277,7 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         tabs.add(setValuesPanel, tab -> tab.title(Text.literal("Set Values")));
         tabs.add(areaCalcPanel, tab -> tab.title(Text.literal("Area Calculation")));
         tabs.add(areaPanel, tab -> tab.title(Text.literal("Area Information")));
+        tabs.add(testingPanel, tab -> tab.title(Text.literal("Testing")));
 
         setRootPanel(tabs);
         tabs.setSelectedIndex(0);
