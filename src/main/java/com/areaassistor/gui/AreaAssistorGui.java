@@ -1,5 +1,7 @@
 package com.areaassistor.gui;
 
+import com.areaassistor.gui2.AreaAssistorBlocksGui;
+import com.areaassistor.gui2.AreaAssistorBlocksScreen;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
 import net.minecraft.block.Block;
@@ -15,6 +17,8 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AreaAssistorGui extends LightweightGuiDescription {
 
@@ -248,36 +252,25 @@ public class AreaAssistorGui extends LightweightGuiDescription {
             MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
         });
 
-        WLabel allBlocks = new WLabel(Text.literal(compileAllBlocks(getBlockList())));
-
-        //WPanel testPanel = new WGridPanel();
-        WScrollPanel testScrollPanel = new WScrollPanel(allBlocks);
+        WButton areaBlocks = new WButton(Text.literal("All blocks in Area Selected"));
+        areaBlocks.setOnClick(() -> {
+            ArrayList<Block> blockList = getBlockList();
+            MinecraftClient.getInstance().setScreen(new AreaAssistorBlocksScreen(new AreaAssistorBlocksGui(blockList)));
+        });
 
         areaPanel.add(b1name, 1, 1, 1, 1);
         areaPanel.add(b2name, 1, 2, 1, 1);
         areaPanel.add(b3name, 1, 3, 1, 1);
         areaPanel.add(inAreaLabel, 1, 5, 1, 1);
         areaPanel.add(areaLabel, 1, 6, 1, 1);
-        areaPanel.add(allBlocks, 1, 7, 1, 1);
+        areaPanel.add(areaBlocks, 1, 9, 7, 1);
         areaPanel.add(refreshButton, 1, 8, 5, 1);
-
-
-        //test tab
-        WGridPanel testingPanel = new WGridPanel();
-        ArrayList<Block> blockList = getBlockList();
-        WLabel testLabel = new WLabel(Text.literal(compileAllBlocks(blockList)));
-
-
-
-
-
 
         //tabs
         WTabPanel tabs = new WTabPanel();
         tabs.add(setValuesPanel, tab -> tab.title(Text.literal("Set Values")));
         tabs.add(areaCalcPanel, tab -> tab.title(Text.literal("Area Calculation")));
         tabs.add(areaPanel, tab -> tab.title(Text.literal("Area Information")));
-        tabs.add(testingPanel, tab -> tab.title(Text.literal("Testing")));
 
         setRootPanel(tabs);
         tabs.setSelectedIndex(0);
@@ -627,28 +620,4 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         return blocks;
     }
 
-    public String getBlockName(Block block)
-    {
-        String blockString = block.getTranslationKey().toString();
-        blockString = blockString.substring(16);
-        return blockString;
-    }
-
-    public String compileAllBlocks(ArrayList<Block> blocks)
-    {
-        if(blocks.size() == 0)
-        {
-            return "No blocks in area";
-        }
-        String allBlocks = "Blocks in area: ";
-        for(int i = 0; i < blocks.size(); i++)
-        {
-            String blockName = getBlockName(blocks.get(i));
-            allBlocks = allBlocks + blockName + ", ";
-        }
-        allBlocks = allBlocks.substring(0, allBlocks.length() - 2);
-        return allBlocks;
-        //TO DO, make it to where duplicates are merged so it doesn't take up too much space
-        //also, make it to where the text wraps if it's too long so it fits into the gui (maybe a new tab?)
-    }
 }
