@@ -15,21 +15,27 @@ public class AreaAssistorBlocksGui extends LightweightGuiDescription {
     public AreaAssistorBlocksGui(ArrayList<Block> blocks)
     {
         WGridPanel root = new WGridPanel();
-        root.setSize(300, 200);
+        root.setSize(400, 200);
 
         String allBlocks = compileAllBlocks(blocks);
         WLabel label = new WLabel(Text.literal(allBlocks));
-        if(allBlocks.length() < 50)
+        //check if string allBlocks is empty
+        if(allBlocks.length() == 0 || allBlocks == null)
+        {
+            allBlocks = "No blocks in area selected!";
+            label = new WLabel(Text.literal(allBlocks));
+        }
+        if(allBlocks.length() < 75)
         {
             root.add(label, 1, 1);
         }
         else
         {
-            for(int i = 0; i<allBlocks.length(); i+=50)
+            for(int i = 0; i<allBlocks.length(); i+=70)
             {
-                if(i+50 < allBlocks.length())
+                if(i+70 < allBlocks.length())
                 {
-                    label = new WLabel(Text.literal(allBlocks.substring(i, i+50)));
+                    label = new WLabel(Text.literal(allBlocks.substring(i, i+70)));
                 }
                 else
                 {

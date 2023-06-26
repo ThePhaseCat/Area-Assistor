@@ -263,7 +263,7 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         areaPanel.add(b3name, 1, 3, 1, 1);
         areaPanel.add(inAreaLabel, 1, 5, 1, 1);
         areaPanel.add(areaLabel, 1, 6, 1, 1);
-        areaPanel.add(areaBlocks, 1, 9, 7, 1);
+        areaPanel.add(areaBlocks, 1, 9, 8, 1);
         areaPanel.add(refreshButton, 1, 8, 5, 1);
 
         //tabs
