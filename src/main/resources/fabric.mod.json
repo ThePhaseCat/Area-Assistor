@@ -17,7 +17,7 @@
   "license": "MIT",
   "icon": "assets/areaassistor/icon.png",
 
-  "environment": "client",
+  "environment": "*",
   "entrypoints": {
     "main": [
       "com.areaassistor.AreaAssistor"
