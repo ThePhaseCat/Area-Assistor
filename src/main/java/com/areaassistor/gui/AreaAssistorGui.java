@@ -1,7 +1,7 @@
 package com.areaassistor.gui;
 
 import com.areaassistor.gui2.AreaAssistorBlocksGui;
-import com.areaassistor.gui2.AreaAssistorBlocksScreen;
+import io.github.cottonmc.cotton.gui.client.CottonClientScreen;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
 import net.minecraft.block.Block;
@@ -17,8 +17,6 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class AreaAssistorGui extends LightweightGuiDescription {
 
@@ -61,21 +59,21 @@ public class AreaAssistorGui extends LightweightGuiDescription {
             block1lab.setText(Text.literal("Block 1: " + BlockCoords(block1)));
             areaValue = getAreaValue();
             block1info = getBlockInfo();
-            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
+            MinecraftClient.getInstance().setScreen(new CottonClientScreen(new AreaAssistorGui()));
         });
         block2coords.setOnClick(() -> {
             block2 = getBlockPos();
             block2lab.setText(Text.literal("Block 2: " + BlockCoords(block2)));
             areaValue = getAreaValue();
             block2info = getBlockInfo();
-            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
+            MinecraftClient.getInstance().setScreen(new CottonClientScreen(new AreaAssistorGui()));
         });
         block3coords.setOnClick(() -> {
             block3 = getBlockPos();
             block3lab.setText(Text.literal("Block 3: " + BlockCoords(block3)));
             areaValue = getAreaValue();
             block3info = getBlockInfo();
-            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
+            MinecraftClient.getInstance().setScreen(new CottonClientScreen(new AreaAssistorGui()));
         });
         resetValues.setOnClick(() -> {
             block1 = BlockPos.ORIGIN;
@@ -85,7 +83,7 @@ public class AreaAssistorGui extends LightweightGuiDescription {
             block1info = null;
             block2info = null;
             block3info = null;
-            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
+            MinecraftClient.getInstance().setScreen(new CottonClientScreen(new AreaAssistorGui()));
         });
 
 
@@ -124,19 +122,19 @@ public class AreaAssistorGui extends LightweightGuiDescription {
 
         noUnbreaking.setOnClick(() -> {
             eLevel = 0;
-            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
+            MinecraftClient.getInstance().setScreen(new CottonClientScreen(new AreaAssistorGui()));
         });
         unbreaking1.setOnClick(() -> {
             eLevel = 1;
-            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
+            MinecraftClient.getInstance().setScreen(new CottonClientScreen(new AreaAssistorGui()));
         });
         unbreaking2.setOnClick(() -> {
             eLevel = 2;
-            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
+            MinecraftClient.getInstance().setScreen(new CottonClientScreen(new AreaAssistorGui()));
         });
         unbreaking3.setOnClick(() -> {
             eLevel = 3;
-            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
+            MinecraftClient.getInstance().setScreen(new CottonClientScreen(new AreaAssistorGui()));
         });
 
         //area calculation panel labels
@@ -249,13 +247,13 @@ public class AreaAssistorGui extends LightweightGuiDescription {
 
         WButton refreshButton = new WButton(Text.literal("Refresh Screen"));
         refreshButton.setOnClick(() -> {
-            MinecraftClient.getInstance().setScreen(new AreaAssistorScreen(new AreaAssistorGui()));
+            MinecraftClient.getInstance().setScreen(new CottonClientScreen(new AreaAssistorGui()));
         });
 
         WButton areaBlocks = new WButton(Text.literal("All blocks in Area Selected"));
         areaBlocks.setOnClick(() -> {
             ArrayList<Block> blockList = getBlockList();
-            MinecraftClient.getInstance().setScreen(new AreaAssistorBlocksScreen(new AreaAssistorBlocksGui(blockList)));
+            MinecraftClient.getInstance().setScreen(new CottonClientScreen(new AreaAssistorBlocksGui(blockList)));
         });
 
         areaPanel.add(b1name, 1, 1, 1, 1);

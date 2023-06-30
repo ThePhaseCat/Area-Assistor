@@ -41,7 +41,7 @@ public class AreaAssistorBlocksGui extends LightweightGuiDescription {
                 {
                     label = new WLabel(Text.literal(allBlocks.substring(i)));
                 }
-                root.add(label, 1, i/50);
+                root.add(label, 1, i/70);
             }
         }
 
