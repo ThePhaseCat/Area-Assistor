@@ -1,8 +1,8 @@
 package com.areaassistor.gui2;
 
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
-import io.github.cottonmc.cotton.gui.widget.WGridPanel;
-import io.github.cottonmc.cotton.gui.widget.WLabel;
+import io.github.cottonmc.cotton.gui.widget.*;
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.block.Block;
 import net.minecraft.text.Text;
 
@@ -16,6 +16,9 @@ public class AreaAssistorBlocksGui extends LightweightGuiDescription {
     {
         WGridPanel root = new WGridPanel();
         root.setSize(400, 200);
+
+        WPlainPanel panel = new WPlainPanel();
+        panel.setSize(400, 200);
 
         String allBlocks = compileAllBlocks(blocks);
         WLabel label = new WLabel(Text.literal(allBlocks));
@@ -45,8 +48,13 @@ public class AreaAssistorBlocksGui extends LightweightGuiDescription {
             }
         }
 
-
-        setRootPanel(root);
+        WScrollPanel scrollPanel = new WScrollPanel(root);
+        scrollPanel.setScrollingHorizontally(TriState.FALSE);
+        scrollPanel.setScrollingVertically(TriState.TRUE);
+        scrollPanel.setSize(400, 200);
+        //setRootPanel(root);
+        setRootPanel(scrollPanel);
+        //root.add(scrollPanel, 0, 0);
     }
 
     public String getBlockName(Block block)

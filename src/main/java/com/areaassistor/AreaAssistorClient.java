@@ -12,7 +12,7 @@ public class AreaAssistorClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        LOGGER.info("AreaAssistor loaded!");
+        LOGGER.info("AreaAssistor successfully loaded!");
         KeyInputHandler.register();
     }
 }

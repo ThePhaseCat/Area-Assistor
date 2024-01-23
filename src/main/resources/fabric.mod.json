@@ -19,9 +19,6 @@
 
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "com.areaassistor.AreaAssistor"
-    ],
     "client": [
       "com.areaassistor.AreaAssistorClient"
     ]
