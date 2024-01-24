@@ -28,23 +28,23 @@ public class AreaAssistorBlocksGui extends LightweightGuiDescription {
             allBlocks = "No blocks in area selected!";
             label = new WLabel(Text.literal(allBlocks));
         }
-        if(allBlocks.length() < 75)
+        if(allBlocks.length() < 65)
         {
             root.add(label, 1, 1);
         }
         else
         {
-            for(int i = 0; i<allBlocks.length(); i+=70)
+            for(int i = 0; i<allBlocks.length(); i+=65)
             {
-                if(i+70 < allBlocks.length())
+                if(i+65 < allBlocks.length())
                 {
-                    label = new WLabel(Text.literal(allBlocks.substring(i, i+70)));
+                    label = new WLabel(Text.literal(allBlocks.substring(i, i+65)));
                 }
                 else
                 {
                     label = new WLabel(Text.literal(allBlocks.substring(i)));
                 }
-                root.add(label, 1, i/70);
+                root.add(label, 1, i/65);
             }
         }
 
