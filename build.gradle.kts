@@ -44,5 +44,5 @@ java {
 }
 
 kotlin {
-	jvmToolchain(17) // java version
+	jvmToolchain(21) // java version
 }

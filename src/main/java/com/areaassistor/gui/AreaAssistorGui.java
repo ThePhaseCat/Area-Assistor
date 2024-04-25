@@ -424,7 +424,7 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         }
         //change tool to item stack
         ItemStack toolStack = new ItemStack(tool);
-        int durability = tool.getMaxDamage();
+        int durability = 0;
 
         //check what item the tool is and then get the durability
         if(tool == Items.WOODEN_PICKAXE || tool == Items.WOODEN_SHOVEL)
