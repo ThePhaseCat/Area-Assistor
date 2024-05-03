@@ -13,6 +13,7 @@ repositories {
 	maven("https://server.bbkr.space/artifactory/libs-release")
 	maven("https://api.modrinth.com/maven")
 	maven("https://maven.wispforest.io")
+	maven(uri("https://maven.gegy.dev"))
 }
 
 dependencies {
@@ -26,8 +27,8 @@ dependencies {
 	//modImplementation("io.github.cottonmc:LibGui:9.2.2+1.20.2")
 	//include("io.github.cottonmc:LibGui:9.2.2+1.20.2")
 
-	modImplementation("io.wispforest:owo-lib:${property("owo_version")}")
-	include("io.wispforest:owo-sentinel:${property("owo_version")}")
+	modImplementation("dev.lambdaurora:spruceui:${property("spruceui_version")}")
+	include("dev.lambdaurora:spruceui:${property("spruceui_version")}")
 }
 
 tasks {
