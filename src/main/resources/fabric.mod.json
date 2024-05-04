@@ -23,6 +23,9 @@
       "com.areaassistor.AreaAssistorClient"
     ]
   },
+  "mixins": [
+    "areaareaassistor.mixins.json"
+  ],
 
   "depends": {
     "fabricloader": ">=0.15.10",

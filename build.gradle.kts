@@ -26,8 +26,10 @@ dependencies {
 	//modImplementation("io.github.cottonmc:LibGui:9.2.2+1.20.2")
 	//include("io.github.cottonmc:LibGui:9.2.2+1.20.2")
 
-	modImplementation("io.wispforest:owo-lib:${property("owo_version")}")
-	include("io.wispforest:owo-sentinel:${property("owo_version")}")
+	modImplementation("io.wispforest:owo-lib:${properties["owo_version"]}")
+	// only if you plan to use owo-config
+	annotationProcessor("io.wispforest:owo-lib:${properties["owo_version"]}")
+	include("io.wispforest:owo-sentinel:${properties["owo_version"]}")
 }
 
 tasks {
@@ -45,6 +47,9 @@ tasks {
 
 java {
 	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 }
 
 kotlin {

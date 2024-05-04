@@ -1,9 +1,6 @@
 package com.areaassistor.gui;
 
 import com.areaassistor.gui2.AreaAssistorBlocksGui;
-import io.github.cottonmc.cotton.gui.client.CottonClientScreen;
-import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
-import io.github.cottonmc.cotton.gui.widget.*;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -19,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 
-public class AreaAssistorGui extends LightweightGuiDescription {
+public class AreaAssistorGui {
 
     public static BlockPos block1 = BlockPos.ORIGIN;
     public static BlockPos block2 = BlockPos.ORIGIN;
@@ -30,26 +27,29 @@ public class AreaAssistorGui extends LightweightGuiDescription {
     public static Block block3info;
     public static int areaValue;
 
-    public static Item toolInfo = getHeldItem();
+    //public static Item toolInfo = getHeldItem();
 
     public static int eLevel = 0;
 
-    public static BlockPos playerPos = getPlayerPosition();
+    //public static BlockPos playerPos = getPlayerPosition();
 
     public AreaAssistorGui() {
-        toolInfo = getHeldItem();
+        System.out.println("Area Assistor GUI Opened!");
+    }
+        //toolInfo = getHeldItem();
         //setValuesPanel
-        WGridPanel setValuesPanel = new WGridPanel();
-        setRootPanel(setValuesPanel);
-        setValuesPanel.setSize(300, 200);
+        //WGridPanel setValuesPanel = new WGridPanel();
+        //setRootPanel(setValuesPanel);
+        //setValuesPanel.setSize(300, 200);
 
         //setValuesPanel Labels
-        WLabel block1lab = new WLabel(Text.literal("Block 1: " + BlockCoords(block1)));
-        WLabel block2lab = new WLabel(Text.literal("Block 2: " + BlockCoords(block2)));
-        WLabel block3lab = new WLabel(Text.literal("Block 3: " + BlockCoords(block3)));
+        //WLabel block1lab = new WLabel(Text.literal("Block 1: " + BlockCoords(block1)));
+        //WLabel block2lab = new WLabel(Text.literal("Block 2: " + BlockCoords(block2)));
+        //WLabel block3lab = new WLabel(Text.literal("Block 3: " + BlockCoords(block3)));
 
 
         //setValuesPanel buttons
+        /*
         WButton block1coords = new WButton(Text.literal("Change Block 1 Coords"));
         WButton block2coords = new WButton(Text.literal("Change Block 2 Coords"));
         WButton block3coords = new WButton(Text.literal("Change Block 3 Coords"));
@@ -614,4 +614,5 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         }
         return blocks;
     }
+         */
 }

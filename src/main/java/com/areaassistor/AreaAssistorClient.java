@@ -17,6 +17,8 @@ public class AreaAssistorClient implements ClientModInitializer {
 
     public static final String MOD_ID = "areaassistor";
 
+    //private static final AreaAssistorMainScreen AreaAssistorMainScreen = new AreaAssistorMainScreen();
+
     private static KeyBinding keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "areaassistor.keybind.open", // The translation key of the keybinding's name
             InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
@@ -33,6 +35,7 @@ public class AreaAssistorClient implements ClientModInitializer {
             if (keyBinding.wasPressed())
             {
                 System.out.println("hi");
+                //MinecraftClient.getInstance().setScreen(AreaAssistorMainScreen);
                 //MinecraftClient.getInstance().setScreen(new CottonClientScreen(new AreaAssistorGui()));
             }
         });
