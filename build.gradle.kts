@@ -22,8 +22,8 @@ dependencies {
 	modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}+${property("minecraft_version")}")
 
-	modImplementation("io.github.cottonmc:LibGui:9.2.1+1.20.2")
-	include("io.github.cottonmc:LibGui:9.2.1+1.20.2")
+	modImplementation("io.github.cottonmc:LibGui:10.0.0+1.20.6")
+	include("io.github.cottonmc:LibGui:10.0.0+1.20.6")
 }
 
 tasks {
@@ -44,5 +44,5 @@ java {
 }
 
 kotlin {
-	jvmToolchain(17) // java version
+	jvmToolchain(21) // java version
 }

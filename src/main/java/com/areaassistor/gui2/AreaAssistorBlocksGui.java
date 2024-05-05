@@ -1,8 +1,8 @@
 package com.areaassistor.gui2;
 
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
-import io.github.cottonmc.cotton.gui.widget.WGridPanel;
-import io.github.cottonmc.cotton.gui.widget.WLabel;
+import io.github.cottonmc.cotton.gui.widget.*;
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.block.Block;
 import net.minecraft.text.Text;
 
@@ -17,6 +17,9 @@ public class AreaAssistorBlocksGui extends LightweightGuiDescription {
         WGridPanel root = new WGridPanel();
         root.setSize(400, 200);
 
+        WPlainPanel panel = new WPlainPanel();
+        panel.setSize(400, 200);
+
         String allBlocks = compileAllBlocks(blocks);
         WLabel label = new WLabel(Text.literal(allBlocks));
         //check if string allBlocks is empty
@@ -25,28 +28,33 @@ public class AreaAssistorBlocksGui extends LightweightGuiDescription {
             allBlocks = "No blocks in area selected!";
             label = new WLabel(Text.literal(allBlocks));
         }
-        if(allBlocks.length() < 75)
+        if(allBlocks.length() < 65)
         {
             root.add(label, 1, 1);
         }
         else
         {
-            for(int i = 0; i<allBlocks.length(); i+=70)
+            for(int i = 0; i<allBlocks.length(); i+=65)
             {
-                if(i+70 < allBlocks.length())
+                if(i+65 < allBlocks.length())
                 {
-                    label = new WLabel(Text.literal(allBlocks.substring(i, i+70)));
+                    label = new WLabel(Text.literal(allBlocks.substring(i, i+65)));
                 }
                 else
                 {
                     label = new WLabel(Text.literal(allBlocks.substring(i)));
                 }
-                root.add(label, 1, i/70);
+                root.add(label, 1, i/65);
             }
         }
 
-
-        setRootPanel(root);
+        WScrollPanel scrollPanel = new WScrollPanel(root);
+        scrollPanel.setScrollingHorizontally(TriState.FALSE);
+        scrollPanel.setScrollingVertically(TriState.TRUE);
+        scrollPanel.setSize(400, 200);
+        //setRootPanel(root);
+        setRootPanel(scrollPanel);
+        //root.add(scrollPanel, 0, 0);
     }
 
     public String getBlockName(Block block)

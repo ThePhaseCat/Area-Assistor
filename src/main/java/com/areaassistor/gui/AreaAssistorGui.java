@@ -4,6 +4,7 @@ import com.areaassistor.gui2.AreaAssistorBlocksGui;
 import io.github.cottonmc.cotton.gui.client.CottonClientScreen;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
@@ -46,6 +47,7 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         WLabel block1lab = new WLabel(Text.literal("Block 1: " + BlockCoords(block1)));
         WLabel block2lab = new WLabel(Text.literal("Block 2: " + BlockCoords(block2)));
         WLabel block3lab = new WLabel(Text.literal("Block 3: " + BlockCoords(block3)));
+
 
         //setValuesPanel buttons
         WButton block1coords = new WButton(Text.literal("Change Block 1 Coords"));
@@ -422,7 +424,7 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         }
         //change tool to item stack
         ItemStack toolStack = new ItemStack(tool);
-        int durability = tool.getMaxDamage();
+        int durability = 0;
 
         //check what item the tool is and then get the durability
         if(tool == Items.WOODEN_PICKAXE || tool == Items.WOODEN_SHOVEL)
@@ -577,8 +579,7 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         }
     }
 
-    public ArrayList<Block> getBlockList()
-    {
+    public ArrayList<Block> getBlockList() {
         ArrayList<Block> blocks = new ArrayList<Block>();
         int b1x = block1.getX();
         int b1y = block1.getY();
@@ -601,15 +602,11 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         int startZ = smallestValue(b1z, b2z, b3z);
         int finalZ = biggestValue(b1z, b2z, b3z);
 
-        for(int i = startX; i <= finalX; i++)
-        {
-            for(int j = startY; j <= finalY; j++)
-            {
-                for(int k = startZ; k <= finalZ; k++)
-                {
+        for (int i = startX; i <= finalX; i++) {
+            for (int j = startY; j <= finalY; j++) {
+                for (int k = startZ; k <= finalZ; k++) {
                     Block block = getBlockInfo(i, j, k);
-                    if(block != Blocks.AIR)
-                    {
+                    if (block != Blocks.AIR) {
                         blocks.add(block);
                     }
                 }
@@ -617,5 +614,4 @@ public class AreaAssistorGui extends LightweightGuiDescription {
         }
         return blocks;
     }
-
 }
