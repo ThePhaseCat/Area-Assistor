@@ -53,7 +53,14 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
         }
         else
         {
-            areaLabel = "Area: " + areaValue + " Blocks";
+            if(areaValue == 1)
+            {
+                areaLabel = "Area: " + areaValue + " Block";
+            }
+            else
+            {
+                areaLabel = "Area: " + areaValue + " Blocks";
+            }
         }
 
 
