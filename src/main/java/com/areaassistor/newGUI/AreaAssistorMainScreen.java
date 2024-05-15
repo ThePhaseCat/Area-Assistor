@@ -63,6 +63,16 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
             }
         }
 
+        String isPlayerInArea = "";
+        if(inArea())
+        {
+            isPlayerInArea = "Inside Area Selected";
+        }
+        else
+        {
+            isPlayerInArea = "Outside Area Selected";
+        }
+
 
         rootComponent
                 .surface(Surface.VANILLA_TRANSLUCENT)
@@ -97,6 +107,7 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
         rootComponent.child(
                 Containers.collapsible(Sizing.content(), Sizing.content(), Text.literal("Area Info"), false)
                         .child(Components.label(Text.literal(areaLabel)))
+                        .child(Components.label(Text.literal(isPlayerInArea)))
                         .padding(Insets.of(10)) //
                         .surface(Surface.DARK_PANEL)
                         .verticalAlignment(VerticalAlignment.CENTER)
@@ -276,5 +287,48 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
         else{
             return b3;
         }
+    }
+
+    public boolean inArea()
+    {
+        int playerX = playerPos.getX();
+        int playerY = playerPos.getY();
+        int playerZ = playerPos.getZ();
+
+        int b1x = block1.getX();
+        int b1y = block1.getY();
+        int b1z = block1.getZ();
+
+        int b2x = block2.getX();
+        int b2y = block2.getY();
+        int b2z = block2.getZ();
+
+        int b3x = block3.getX();
+        int b3y = block3.getY();
+        int b3z = block3.getZ();
+
+        int startX = smallestValue(b1x, b2x, b3x);
+        int finalX = biggestValue(b1x, b2x, b3x);
+
+        int startY = smallestValue(b1y, b2y, b3y);
+        int finalY = biggestValue(b1y, b2y, b3y);
+
+        int startZ = smallestValue(b1z, b2z, b3z);
+        int finalZ = biggestValue(b1z, b2z, b3z);
+
+        for(int i = startX; i <= finalX; i++)
+        {
+            for(int j = startY; j <= finalY; j++)
+            {
+                for(int k = startZ; k <= finalZ; k++)
+                {
+                    if(playerX == i && playerY == j && playerZ == k)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
