@@ -64,13 +64,17 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
         }
 
         String isPlayerInArea = "";
-        if(inArea())
+        //we can't check that if it's 0 or 1, so show a different message...
+        if(areaValue != 0 && areaValue !=1)
         {
-            isPlayerInArea = "Inside Area Selected";
+            isPlayerInArea = "No Area Selected/defined!";
         }
-        else
-        {
-            isPlayerInArea = "Outside Area Selected";
+        else {
+            if (inArea()) {
+                isPlayerInArea = "Inside Area Selected";
+            } else {
+                isPlayerInArea = "Outside Area Selected";
+            }
         }
 
 
