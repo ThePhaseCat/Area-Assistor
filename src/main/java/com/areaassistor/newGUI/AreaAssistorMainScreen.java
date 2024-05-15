@@ -6,6 +6,8 @@ import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -15,6 +17,11 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Flow;
 
 public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
 
@@ -63,9 +70,11 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
             }
         }
 
-        String isPlayerInArea = "";
+
+
+                String isPlayerInArea = "";
         //we can't check that if it's 0 or 1, so show a different message...
-        if(areaValue != 0 && areaValue !=1)
+        if(areaValue == 0 && areaValue == 1)
         {
             isPlayerInArea = "No Area Selected/defined!";
         }
@@ -77,6 +86,7 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
             }
         }
 
+        String blocksInArea = compileAllBlocks(getBlockList());
 
         rootComponent
                 .surface(Surface.VANILLA_TRANSLUCENT)
@@ -117,6 +127,9 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
                         .verticalAlignment(VerticalAlignment.CENTER)
                         .horizontalAlignment(HorizontalAlignment.CENTER)
         );
+
+        //blocks in area would probably be easier if it's in its own screen, will
+        //do that later
     }
 
     public void resetAreaInformation()
@@ -334,5 +347,94 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
             }
         }
         return false;
+    }
+
+    public ArrayList<Block> getBlockList() {
+        ArrayList<Block> blocks = new ArrayList<Block>();
+        int b1x = block1.getX();
+        int b1y = block1.getY();
+        int b1z = block1.getZ();
+
+        int b2x = block2.getX();
+        int b2y = block2.getY();
+        int b2z = block2.getZ();
+
+        int b3x = block3.getX();
+        int b3y = block3.getY();
+        int b3z = block3.getZ();
+
+        int startX = smallestValue(b1x, b2x, b3x);
+        int finalX = biggestValue(b1x, b2x, b3x);
+
+        int startY = smallestValue(b1y, b2y, b3y);
+        int finalY = biggestValue(b1y, b2y, b3y);
+
+        int startZ = smallestValue(b1z, b2z, b3z);
+        int finalZ = biggestValue(b1z, b2z, b3z);
+
+        for (int i = startX; i <= finalX; i++) {
+            for (int j = startY; j <= finalY; j++) {
+                for (int k = startZ; k <= finalZ; k++) {
+                    Block block = getBlockInfo(i, j, k);
+                    if (block != Blocks.AIR) {
+                        blocks.add(block);
+                    }
+                }
+            }
+        }
+        return blocks;
+    }
+
+    public Block getBlockInfo(int x, int y, int z)
+    {
+        MinecraftClient client = MinecraftClient.getInstance();
+        Block blockInfo = client.world.getBlockState(new BlockPos(x, y, z)).getBlock();
+
+        if(blockInfo == null)
+        {
+            return null;
+        }
+        else
+        {
+            return blockInfo;
+        }
+    }
+
+    public String compileAllBlocks(ArrayList<Block> blocks)
+    {
+        if(blocks.size() == 0)
+        {
+            return "No blocks in area";
+        }
+        String allBlocks = "Blocks in Area: ";
+
+        // build hash table with counting for duplicates
+        HashMap<Block, Integer> blockCount = new HashMap<Block, Integer>();
+        for (Block block : blocks) {
+            Integer count = blockCount.get(block);
+            if (count == null) {
+                blockCount.put(block, 1);
+            } else {
+                blockCount.put(block, count + 1);
+            }
+        }
+
+        // build output string
+        for (Map.Entry<Block, Integer> entry : blockCount.entrySet()) {
+            String blockName = getBlockName(entry.getKey());
+            allBlocks = allBlocks + blockName + " x" + entry.getValue() + ", ";
+        }
+
+        allBlocks = allBlocks.substring(0, allBlocks.length() - 2);
+
+
+        return allBlocks;
+    }
+
+    public String getBlockName(Block block)
+    {
+        String blockString = block.getTranslationKey().toString();
+        blockString = blockString.substring(16);
+        return blockString;
     }
 }
