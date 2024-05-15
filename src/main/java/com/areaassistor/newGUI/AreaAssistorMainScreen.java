@@ -130,6 +130,15 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
 
         //blocks in area would probably be easier if it's in its own screen, will
         //do that later
+        rootComponent.child(
+                Containers.collapsible(Sizing.content(), Sizing.content(), Text.literal("Blocks In Area"), false)
+                        .child(Components.label(Text.literal(blocksInArea)))
+                        .padding(Insets.of(10)) //
+                        .surface(Surface.DARK_PANEL)
+                        .verticalAlignment(VerticalAlignment.CENTER)
+                        .horizontalAlignment(HorizontalAlignment.CENTER)
+        );
+
     }
 
     public void resetAreaInformation()
