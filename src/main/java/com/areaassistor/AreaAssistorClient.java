@@ -2,6 +2,7 @@ package com.areaassistor;
 
 import com.areaassistor.gui.AreaAssistorGui;
 import com.areaassistor.newGUI.AreaAssistorMainScreen;
+import com.areaassistor.newGUI.AreaAssistorMainXML;
 import io.wispforest.owo.client.screens.OwoScreenHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -35,7 +36,8 @@ public class AreaAssistorClient implements ClientModInitializer {
             if (keyBinding.wasPressed())
             {
                 LOGGER.info("Key bind to open Area Assistor Main Screen was pressed!");
-                MinecraftClient.getInstance().setScreen(new AreaAssistorMainScreen());
+                MinecraftClient.getInstance().setScreen(new AreaAssistorMainXML());
+                //MinecraftClient.getInstance().setScreen(new AreaAssistorMainScreen());
                 //MinecraftClient.getInstance().setScreen(new CottonClientScreen(new AreaAssistorGui()));
             }
         });
