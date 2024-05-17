@@ -22,6 +22,17 @@
                         <panel dark="true"/>
                     </surface>
                 </flow-layout>
+
+                <collapsible expanded="false">
+                    <children>
+                        <button id="button_2">
+                            <text>Yet Another Button</text>
+                        </button>
+                    </children>
+                </collapsible>
+
+
+
             </children>
 
             <vertical-alignment>center</vertical-alignment>

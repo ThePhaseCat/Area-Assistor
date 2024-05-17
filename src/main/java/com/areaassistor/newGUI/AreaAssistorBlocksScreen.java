@@ -4,6 +4,7 @@ import io.wispforest.owo.ui.base.BaseOwoScreen;
 import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
+import io.wispforest.owo.ui.core.Component;
 import io.wispforest.owo.ui.core.*;
 import net.minecraft.block.Block;
 import net.minecraft.text.Text;
@@ -32,11 +33,21 @@ public class AreaAssistorBlocksScreen extends BaseOwoScreen<FlowLayout> {
     {
         String blocksInArea = compileAllBlocks(blocks);
 
+        Component componet = whatIsThis(Components.label(Text.literal(blocksInArea)));
+
         rootComponent
                 .surface(Surface.VANILLA_TRANSLUCENT)
                 .horizontalAlignment(HorizontalAlignment.CENTER)
                 .verticalAlignment(VerticalAlignment.CENTER);
 
+        rootComponent.child(
+                Containers.verticalScroll(Sizing.fill(75), Sizing.fill(75), componet)
+                        .child(Components.label(Text.literal(blocksInArea)).maxWidth(300))
+                        .padding(Insets.of(10))
+                        .surface(Surface.DARK_PANEL)
+                        .verticalAlignment(VerticalAlignment.CENTER)
+                        .horizontalAlignment(HorizontalAlignment.CENTER)
+        );
     }
 
     public String compileAllBlocks(ArrayList<Block> blocks)
@@ -75,5 +86,10 @@ public class AreaAssistorBlocksScreen extends BaseOwoScreen<FlowLayout> {
         String blockString = block.getTranslationKey().toString();
         blockString = blockString.substring(16);
         return blockString;
+    }
+
+    public static <C extends Component> C whatIsThis(C component)
+    {
+        return component;
     }
 }

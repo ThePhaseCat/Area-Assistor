@@ -86,22 +86,10 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
             }
         }
 
-        //String blocksInArea = compileAllBlocks(getBlockList());
-
         rootComponent
                 .surface(Surface.VANILLA_TRANSLUCENT)
                 .horizontalAlignment(HorizontalAlignment.CENTER)
                 .verticalAlignment(VerticalAlignment.CENTER);
-
-        rootComponent.child(
-
-                Containers.verticalFlow(Sizing.content() /**/, Sizing.content())
-                        .child(Components.button(Text.literal("A Button"), button -> { System.out.println("click"); }))
-                        .padding(Insets.of(10)) //
-                        .surface(Surface.DARK_PANEL)
-                        .verticalAlignment(VerticalAlignment.CENTER)
-                        .horizontalAlignment(HorizontalAlignment.CENTER)
-        );
 
         rootComponent.child(
                 Containers.collapsible(Sizing.content(), Sizing.content(), Text.literal("Set Block Positions For Area Calculations"), true)
@@ -132,7 +120,7 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
         //do that later
         rootComponent.child(
                 Containers.verticalFlow(Sizing.content(), Sizing.content())
-                        .child(Components.button(Text.literal("Blocks in Area Screen"), button -> { MinecraftClient.getInstance().setScreen(new AreaAssistorBlocksScreen(getBlockList())); }))
+                        .child(Components.button(Text.literal("View Blocks in Area"), button -> { switchToBlocksScreen();}))
                         .padding(Insets.of(10)) //
                         .surface(Surface.DARK_PANEL)
                         .verticalAlignment(VerticalAlignment.CENTER)
@@ -409,5 +397,9 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
         }
     }
 
-
+    public void switchToBlocksScreen()
+    {
+        ArrayList<Block> blocks = getBlockList();
+        MinecraftClient.getInstance().setScreen(new AreaAssistorBlocksScreen(blocks));
+    }
 }

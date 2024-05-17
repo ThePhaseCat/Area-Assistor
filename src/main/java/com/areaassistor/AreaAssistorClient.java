@@ -36,8 +36,8 @@ public class AreaAssistorClient implements ClientModInitializer {
             if (keyBinding.wasPressed())
             {
                 LOGGER.info("Key bind to open Area Assistor Main Screen was pressed!");
-                MinecraftClient.getInstance().setScreen(new AreaAssistorMainXML());
-                //MinecraftClient.getInstance().setScreen(new AreaAssistorMainScreen());
+                //MinecraftClient.getInstance().setScreen(new AreaAssistorMainXML());
+                MinecraftClient.getInstance().setScreen(new AreaAssistorMainScreen());
                 //MinecraftClient.getInstance().setScreen(new CottonClientScreen(new AreaAssistorGui()));
             }
         });
