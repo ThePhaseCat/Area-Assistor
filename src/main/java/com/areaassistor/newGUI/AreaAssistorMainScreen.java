@@ -11,6 +11,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
@@ -36,6 +37,20 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
     public static int eLevel = 0;
 
     public static BlockPos playerPos = getPlayerPosition();
+
+    public static boolean isSetBlocksOpen = false;
+
+    public static boolean isEnchantmentOpen = false;
+
+    public AreaAssistorMainScreen() {
+        super();
+    }
+
+    public AreaAssistorMainScreen(boolean isBlocksOpen, boolean isEnchantmentOpen) {
+        super();
+        isSetBlocksOpen = isBlocksOpen;
+        isEnchantmentOpen = isEnchantmentOpen;
+    }
 
     @Override
     protected @NotNull OwoUIAdapter<FlowLayout> createAdapter() {
@@ -86,6 +101,54 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
             }
         }
 
+        String toolName;
+        String toolStuff;
+
+        if(toolInfo == null)
+        {
+            toolName = "No Tool in Hand!";
+            toolStuff = "Equip a tool before trying to use this feature!";
+        }
+        else
+        {
+            toolName = toolInfo.getName().getString();
+            toolStuff = "Durability: " + durabilityCalculation(toolInfo, eLevel);
+        }
+
+        String areaInformation = null;
+
+        if(howManyAmount() == 0.0 || toolInfo == null)
+        {
+            areaInformation = "No area defined or no tool in hand!";
+        }
+        else
+        {
+            String toolAmount = String.valueOf(howManyAmount()) + " ";
+            //check if the tool is a shovel or pickaxe
+            if(toolInfo == Items.WOODEN_SHOVEL || toolInfo == Items.STONE_SHOVEL || toolInfo == Items.IRON_SHOVEL || toolInfo == Items.GOLDEN_SHOVEL || toolInfo == Items.DIAMOND_SHOVEL || toolInfo == Items.NETHERITE_SHOVEL || toolInfo == Items.WOODEN_PICKAXE || toolInfo == Items.STONE_PICKAXE || toolInfo == Items.IRON_PICKAXE || toolInfo == Items.GOLDEN_PICKAXE || toolInfo == Items.DIAMOND_PICKAXE || toolInfo == Items.NETHERITE_PICKAXE)
+            {
+                areaInformation = "It will take " + toolAmount + toolName + "'s to clear " + areaValue + " blocks!";
+            }
+        }
+
+        String unbreakingLevel = null;
+        if(eLevel == 0)
+        {
+            unbreakingLevel = "No Unbreaking";
+        }
+        else if(eLevel == 1)
+        {
+            unbreakingLevel = "Unbreaking I";
+        }
+        else if(eLevel == 2)
+        {
+            unbreakingLevel = "Unbreaking II";
+        }
+        else if(eLevel == 3)
+        {
+            unbreakingLevel = "Unbreaking III";
+        }
+
         rootComponent
                 .surface(Surface.VANILLA_TRANSLUCENT)
                 .horizontalAlignment(HorizontalAlignment.CENTER)
@@ -107,17 +170,32 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
         );
 
         rootComponent.child(
-                Containers.collapsible(Sizing.content(), Sizing.content(), Text.literal("Area Info"), false)
+            Containers.collapsible(Sizing.content(), Sizing.content(), Text.literal("Set Tool Enchantment Level"), false)
+                    .child(Components.label(Text.literal(toolName)))
+                    .child(Components.label(Text.literal(toolStuff)))
+                    .child(Components.label(Text.literal("Unbreaking Level: " + unbreakingLevel)))
+                    .child(Components.button(Text.literal("No Unbreaking"), button -> { setELevel(0); }))
+                    .child(Components.button(Text.literal("Unbreaking I"), button -> { setELevel(1); }))
+                    .child(Components.button(Text.literal("Unbreaking II"), button -> { setELevel(2); }))
+                    .child(Components.button(Text.literal("Unbreaking III"), button -> { setELevel(3); }))
+                    .padding(Insets.of(10)) //
+                    .surface(Surface.DARK_PANEL)
+                    .verticalAlignment(VerticalAlignment.CENTER)
+                    .horizontalAlignment(HorizontalAlignment.CENTER)
+
+        );
+
+        rootComponent.child(
+                Containers.collapsible(Sizing.content(), Sizing.content(), Text.literal("Area Info/Calculation"), false)
                         .child(Components.label(Text.literal(areaLabel)))
                         .child(Components.label(Text.literal(isPlayerInArea)))
+                        .child(Components.label(Text.literal(areaInformation)))
                         .padding(Insets.of(10)) //
                         .surface(Surface.DARK_PANEL)
                         .verticalAlignment(VerticalAlignment.CENTER)
                         .horizontalAlignment(HorizontalAlignment.CENTER)
         );
 
-        //blocks in area would probably be easier if it's in its own screen, will
-        //do that later
         rootComponent.child(
                 Containers.verticalFlow(Sizing.content(), Sizing.content())
                         .child(Components.button(Text.literal("View Blocks in Area"), button -> { switchToBlocksScreen();}))
@@ -401,5 +479,93 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
     {
         ArrayList<Block> blocks = getBlockList();
         MinecraftClient.getInstance().setScreen(new AreaAssistorBlocksScreen(blocks));
+    }
+
+    public void setELevel(int level)
+    {
+        eLevel = level;
+        MinecraftClient.getInstance().setScreen(new AreaAssistorMainScreen(false, true));
+    }
+
+    public int durabilityCalculation(Item tool, int enchantLevel)
+    {
+        if(tool == null)
+        {
+            return 0;
+        }
+        //change tool to item stack
+        ItemStack toolStack = new ItemStack(tool);
+        int durability = 0;
+
+        //check what item the tool is and then get the durability
+        if(tool == Items.WOODEN_PICKAXE || tool == Items.WOODEN_SHOVEL)
+        {
+            durability = 60;
+        }
+        if(tool == Items.STONE_PICKAXE || tool == Items.STONE_SHOVEL)
+        {
+            durability = 132;
+        }
+        if(tool == Items.IRON_PICKAXE || tool == Items.IRON_SHOVEL)
+        {
+            durability = 251;
+        }
+        if(tool == Items.GOLDEN_PICKAXE || tool == Items.GOLDEN_SHOVEL)
+        {
+            durability = 33;
+        }
+        if(tool == Items.DIAMOND_PICKAXE || tool == Items.DIAMOND_SHOVEL)
+        {
+            durability = 1562;
+        }
+        if(tool == Items.NETHERITE_PICKAXE || tool == Items.NETHERITE_SHOVEL)
+        {
+            durability = 2032;
+        }
+
+
+        //get enchant of unbreaking
+        int unbreaking = enchantLevel;
+
+        //calculate durability
+        if (unbreaking == 1)
+        {
+            durability = durability * 2;
+        }
+        else if (unbreaking == 2)
+        {
+            durability = durability * 3;
+        }
+        else if (unbreaking == 3)
+        {
+            durability = durability * 4;
+        }
+        else
+        {
+            durability = durability;
+        }
+        return durability;
+    }
+
+    public double howManyAmount()
+    {
+        //calculate how many pickaxes or shovels are required to clear out an area
+        int area = getAreaValue();
+        if(area == 0)
+        {
+            return 0.0;
+        }
+        else
+        {
+            double durability = durabilityCalculation(toolInfo, eLevel);
+            if(durability == 0)
+            {
+                return 0.0;
+            }
+            double howMany = area / durability;
+            //trim howMany to 2 decimal places
+            howMany = Math.round(howMany * 100.0) / 100.0;
+            return howMany;
+        }
     }
 }
