@@ -155,7 +155,7 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
                 .verticalAlignment(VerticalAlignment.CENTER);
 
         rootComponent.child(
-                Containers.collapsible(Sizing.content(), Sizing.content(), Text.literal("Set Block Positions For Area Calculations"), false)
+                Containers.collapsible(Sizing.content(), Sizing.content(), Text.literal("Set Block Positions For Area Calculations"), isSetBlocksOpen)
                         .child(Components.button(Text.literal("Set Block 1 Position"), button -> { setBlockPos(1); }))
                         .child(Components.button(Text.literal("Set Block 2 Position"), button -> { setBlockPos(2); }))
                         .child(Components.button(Text.literal("Set Block 3 Position"), button -> { setBlockPos(3); }))
@@ -170,7 +170,7 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
         );
 
         rootComponent.child(
-            Containers.collapsible(Sizing.content(), Sizing.content(), Text.literal("Set Tool Enchantment Level"), false)
+            Containers.collapsible(Sizing.content(), Sizing.content(), Text.literal("Set Tool Enchantment Level"), isEnchantmentOpen)
                     .child(Components.label(Text.literal(toolName)))
                     .child(Components.label(Text.literal(toolStuff)))
                     .child(Components.label(Text.literal("Unbreaking Level: " + unbreakingLevel)))
@@ -205,6 +205,8 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
                         .horizontalAlignment(HorizontalAlignment.CENTER)
         );
 
+        isSetBlocksOpen = false;
+        isEnchantmentOpen = false;
     }
 
     public void resetAreaInformation()
@@ -225,15 +227,15 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
             {
                 case 1:
                     block1 = blockPos;
-                    MinecraftClient.getInstance().setScreen(new AreaAssistorMainScreen());
+                    MinecraftClient.getInstance().setScreen(new AreaAssistorMainScreen(true, false));
                     break;
                 case 2:
                     block2 = blockPos;
-                    MinecraftClient.getInstance().setScreen(new AreaAssistorMainScreen());
+                    MinecraftClient.getInstance().setScreen(new AreaAssistorMainScreen(true, false));
                     break;
                 case 3:
                     block3 = blockPos;
-                    MinecraftClient.getInstance().setScreen(new AreaAssistorMainScreen());
+                    MinecraftClient.getInstance().setScreen(new AreaAssistorMainScreen(true, false));
                     break;
             }
         }
