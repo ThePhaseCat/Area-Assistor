@@ -92,7 +92,7 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
                 .verticalAlignment(VerticalAlignment.CENTER);
 
         rootComponent.child(
-                Containers.collapsible(Sizing.content(), Sizing.content(), Text.literal("Set Block Positions For Area Calculations"), true)
+                Containers.collapsible(Sizing.content(), Sizing.content(), Text.literal("Set Block Positions For Area Calculations"), false)
                         .child(Components.button(Text.literal("Set Block 1 Position"), button -> { setBlockPos(1); }))
                         .child(Components.button(Text.literal("Set Block 2 Position"), button -> { setBlockPos(2); }))
                         .child(Components.button(Text.literal("Set Block 3 Position"), button -> { setBlockPos(3); }))

@@ -7,6 +7,7 @@ import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.Component;
 import io.wispforest.owo.ui.core.*;
 import net.minecraft.block.Block;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,6 +49,20 @@ public class AreaAssistorBlocksScreen extends BaseOwoScreen<FlowLayout> {
                         .verticalAlignment(VerticalAlignment.CENTER)
                         .horizontalAlignment(HorizontalAlignment.CENTER)
         );
+
+        rootComponent.child(
+                Containers.verticalFlow(Sizing.content() /**/, Sizing.content())
+                        .child(Components.button(Text.literal("Back to Main Screen"), button -> { switchBackToMainScreen(); }))
+                        .padding(Insets.of(10)) //
+                        .surface(Surface.DARK_PANEL)
+                        .verticalAlignment(VerticalAlignment.CENTER)
+                        .horizontalAlignment(HorizontalAlignment.CENTER)
+        );
+    }
+
+    public void switchBackToMainScreen()
+    {
+        MinecraftClient.getInstance().setScreen(new AreaAssistorMainScreen());
     }
 
     public String compileAllBlocks(ArrayList<Block> blocks)
