@@ -123,7 +123,7 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
         }
         else
         {
-            String toolAmount = String.valueOf(howManyAmount()) + " ";
+            String toolAmount = howManyAmount() + " ";
             //check if the tool is a shovel or pickaxe
             if(toolInfo == Items.WOODEN_SHOVEL || toolInfo == Items.STONE_SHOVEL || toolInfo == Items.IRON_SHOVEL || toolInfo == Items.GOLDEN_SHOVEL || toolInfo == Items.DIAMOND_SHOVEL || toolInfo == Items.NETHERITE_SHOVEL || toolInfo == Items.WOODEN_PICKAXE || toolInfo == Items.STONE_PICKAXE || toolInfo == Items.IRON_PICKAXE || toolInfo == Items.GOLDEN_PICKAXE || toolInfo == Items.DIAMOND_PICKAXE || toolInfo == Items.NETHERITE_PICKAXE)
             {

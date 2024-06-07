@@ -34,6 +34,8 @@ public class AreaAssistorBlocksScreen extends BaseOwoScreen<FlowLayout> {
     {
         String blocksInArea = compileAllBlocks(blocks);
 
+        int guiScale = MinecraftClient.getInstance().options.getGuiScale().getValue();
+
         Component componet = whatIsThis(Components.label(Text.literal(blocksInArea)));
 
         rootComponent
