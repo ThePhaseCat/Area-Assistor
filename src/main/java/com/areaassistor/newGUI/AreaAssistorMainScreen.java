@@ -170,23 +170,14 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
         );
 
         rootComponent.child(
-            Containers.collapsible(Sizing.content(), Sizing.content(), Text.literal("Set Tool Enchantment Level"), isEnchantmentOpen)
-                    .child(Components.label(Text.literal(toolName)))
-                    .child(Components.label(Text.literal(toolStuff)))
-                    .child(Components.label(Text.literal("Unbreaking Level: " + unbreakingLevel)))
-                    .child(Components.button(Text.literal("No Unbreaking"), button -> { setELevel(0); }))
-                    .child(Components.button(Text.literal("Unbreaking I"), button -> { setELevel(1); }))
-                    .child(Components.button(Text.literal("Unbreaking II"), button -> { setELevel(2); }))
-                    .child(Components.button(Text.literal("Unbreaking III"), button -> { setELevel(3); }))
-                    .padding(Insets.of(10)) //
-                    .surface(Surface.DARK_PANEL)
-                    .verticalAlignment(VerticalAlignment.CENTER)
-                    .horizontalAlignment(HorizontalAlignment.CENTER)
-
-        );
-
-        rootComponent.child(
-                Containers.collapsible(Sizing.content(), Sizing.content(), Text.literal("Area Info/Calculation"), false)
+                Containers.collapsible(Sizing.content(), Sizing.content(), Text.literal("Enchant/Area Info"), false)
+                        .child(Components.label(Text.literal(toolName)))
+                        .child(Components.label(Text.literal(toolStuff)))
+                        .child(Components.label(Text.literal("Unbreaking Level: " + unbreakingLevel)))
+                        .child(Components.button(Text.literal("No Unbreaking"), button -> { setELevel(0); }))
+                        .child(Components.button(Text.literal("Unbreaking I"), button -> { setELevel(1); }))
+                        .child(Components.button(Text.literal("Unbreaking II"), button -> { setELevel(2); }))
+                        .child(Components.button(Text.literal("Unbreaking III"), button -> { setELevel(3); }))
                         .child(Components.label(Text.literal(areaLabel)))
                         .child(Components.label(Text.literal(isPlayerInArea)))
                         .child(Components.label(Text.literal(areaInformation)))
