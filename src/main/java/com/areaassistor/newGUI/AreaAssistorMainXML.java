@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 public class AreaAssistorMainXML extends BaseUIModelScreen<FlowLayout> {
 
     public AreaAssistorMainXML() {
-        super(FlowLayout.class, DataSource.asset(new Identifier("areaassistor", "area_ui_model")));
+        super(FlowLayout.class, DataSource.asset(Identifier.of("areaassistor", "area_ui_model")));
     }
     @Override
     protected void build(FlowLayout rootComponent) {
