@@ -376,6 +376,9 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
 
     public boolean inArea()
     {
+        //reset/update player position
+        playerPos = getPlayerPosition();
+
         int playerX = playerPos.getX();
         int playerY = playerPos.getY();
         int playerZ = playerPos.getZ();
@@ -401,20 +404,35 @@ public class AreaAssistorMainScreen extends BaseOwoScreen<FlowLayout> {
         int startZ = smallestValue(b1z, b2z, b3z);
         int finalZ = biggestValue(b1z, b2z, b3z);
 
+        boolean isPlayerInArea = false;
+
+        //AreaAssistorClient.LOGGER.info("Player Pos: " + playerX + ", " + playerY + ", " + playerZ);
+        //AreaAssistorClient.LOGGER.info("Start Pos: " + startX + ", " + startY + ", " + startZ);
+        //AreaAssistorClient.LOGGER.info("Final Pos: " + finalX + ", " + finalY + ", " + finalZ);
+
         for(int i = startX; i <= finalX; i++)
         {
             for(int j = startY; j <= finalY; j++)
             {
                 for(int k = startZ; k <= finalZ; k++)
                 {
+                    //AreaAssistorClient.LOGGER.info("Block Pos Checking: " + i + ", " + j + ", " + k);
                     if(playerX == i && playerY == j && playerZ == k)
                     {
-                        return true;
+                        //AreaAssistorClient.LOGGER.info("Player is in the area!");
+                        isPlayerInArea = true;
                     }
                 }
             }
         }
-        return false;
+        if(isPlayerInArea)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public ArrayList<Block> getBlockList() {
