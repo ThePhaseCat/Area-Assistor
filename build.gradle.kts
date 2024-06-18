@@ -12,6 +12,7 @@ repositories {
 	mavenCentral()
 	maven("https://server.bbkr.space/artifactory/libs-release")
 	maven("https://api.modrinth.com/maven")
+	maven("https://maven.wispforest.io")
 }
 
 dependencies {
@@ -22,8 +23,13 @@ dependencies {
 	modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}+${property("minecraft_version")}")
 
-	modImplementation("io.github.cottonmc:LibGui:10.0.0+1.20.6")
-	include("io.github.cottonmc:LibGui:10.0.0+1.20.6")
+	//modImplementation("io.github.cottonmc:LibGui:9.2.2+1.20.2")
+	//include("io.github.cottonmc:LibGui:9.2.2+1.20.2")
+
+	modImplementation("io.wispforest:owo-lib:${properties["owo_version"]}")
+	// only if you plan to use owo-config
+	annotationProcessor("io.wispforest:owo-lib:${properties["owo_version"]}")
+	include("io.wispforest:owo-sentinel:${properties["owo_version"]}")
 }
 
 tasks {
@@ -41,6 +47,9 @@ tasks {
 
 java {
 	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 }
 
 kotlin {

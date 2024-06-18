@@ -1,7 +1,9 @@
 package com.areaassistor;
 
 import com.areaassistor.gui.AreaAssistorGui;
-import io.github.cottonmc.cotton.gui.client.CottonClientScreen;
+import com.areaassistor.newGUI.AreaAssistorMainScreen;
+import com.areaassistor.newGUI.AreaAssistorMainXML;
+import io.wispforest.owo.client.screens.OwoScreenHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -33,7 +35,10 @@ public class AreaAssistorClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyBinding.wasPressed())
             {
-                MinecraftClient.getInstance().setScreen(new CottonClientScreen(new AreaAssistorGui()));
+                //LOGGER.info("Key bind to open Area Assistor Main Screen was pressed!");
+                //MinecraftClient.getInstance().setScreen(new AreaAssistorMainXML());
+                MinecraftClient.getInstance().setScreen(new AreaAssistorMainScreen());
+                //MinecraftClient.getInstance().setScreen(new CottonClientScreen(new AreaAssistorGui()));
             }
         });
     }
