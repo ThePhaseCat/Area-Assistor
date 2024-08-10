@@ -4,13 +4,13 @@ A mod that ports my Java Application, MineCalc, into Minecraft as a client-side 
 This is also my first attempt at a Minecraft Mod, and as such, I would not be surprised if there are bugs.
 
 # Requirements
-Minecraft `1.21.0`
+Minecraft `>=1.21.0`
 
 Fabric Loader `>=0.15.11`
 
 Fabric API `>=0.100.1`
 
-owo-lib `>=0.12.10`
+owo-lib `0.12.11`
 
 # How to use
 
@@ -35,4 +35,4 @@ This screen lists all the blocks in the area, and the amount of each block insid
 
 ## Contributing
 
-Feel free to contribute to this project as it's available under the MIT license. Find any issues or have a suggestion, report it on [Github](https://github.com/ThePhaseCat/MineCalc-Mod)!
+Feel free to contribute to this project as it's available under the MIT license. Find any issues or have a suggestion, report it on [Github](https://github.com/ThePhaseCat/Area-Assistor)!
