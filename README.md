@@ -4,13 +4,13 @@ A mod that ports my Java Application, MineCalc, into Minecraft as a client-side 
 This is also my first attempt at a Minecraft Mod, and as such, I would not be surprised if there are bugs.
 
 # Requirements
-Minecraft `>=1.21.2`
+Minecraft `>=1.21.4`
 
-Fabric Loader `>=0.16.7`
+Fabric Loader `>=0.16.9`
 
-Fabric API `>=0.106.1`
+Fabric API `>=0.112.0`
 
-owo-lib `0.12.16`
+owo-lib `0.12.19`
 
 # How to use
 
